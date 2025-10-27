@@ -16,19 +16,16 @@ const user_entity_1 = require("../../users/entities/user.entity");
 var PaymentStatusCode;
 (function (PaymentStatusCode) {
     PaymentStatusCode["PENDING"] = "PENDING";
-    PaymentStatusCode["COMPLETED"] = "COMPLETED";
-    PaymentStatusCode["FAILED"] = "FAILED";
-    PaymentStatusCode["CANCELLED"] = "CANCELLED";
+    PaymentStatusCode["PAID"] = "PAID";
+    PaymentStatusCode["OVERDUE"] = "OVERDUE";
     PaymentStatusCode["REFUNDED"] = "REFUNDED";
 })(PaymentStatusCode || (exports.PaymentStatusCode = PaymentStatusCode = {}));
 var PaymentMethodCode;
 (function (PaymentMethodCode) {
     PaymentMethodCode["CASH"] = "CASH";
-    PaymentMethodCode["BANK_TRANSFER"] = "BANK_TRANSFER";
-    PaymentMethodCode["CREDIT_CARD"] = "CREDIT_CARD";
-    PaymentMethodCode["DEBIT_CARD"] = "DEBIT_CARD";
-    PaymentMethodCode["PAYPAL"] = "PAYPAL";
-    PaymentMethodCode["CHECK"] = "CHECK";
+    PaymentMethodCode["TRANSFER"] = "TRANSFER";
+    PaymentMethodCode["YAPE"] = "YAPE";
+    PaymentMethodCode["PLIN"] = "PLIN";
     PaymentMethodCode["OTHER"] = "OTHER";
 })(PaymentMethodCode || (exports.PaymentMethodCode = PaymentMethodCode = {}));
 let Payment = class Payment {
@@ -39,11 +36,11 @@ let Payment = class Payment {
     amountTotal;
     methodCode;
     reference;
-    extraReference;
     isVoid;
     voidReason;
     voidedAt;
     created_at;
+    updated_at;
     client;
     createdByUser;
     voidedByUser;
@@ -85,10 +82,6 @@ __decorate([
     __metadata("design:type", String)
 ], Payment.prototype, "reference", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'json', nullable: true }),
-    __metadata("design:type", Object)
-], Payment.prototype, "extraReference", void 0);
-__decorate([
     (0, typeorm_1.Column)({ default: false }),
     __metadata("design:type", Boolean)
 ], Payment.prototype, "isVoid", void 0);
@@ -104,6 +97,10 @@ __decorate([
     (0, typeorm_1.CreateDateColumn)({ default: () => "CURRENT_TIMESTAMP" }),
     __metadata("design:type", Date)
 ], Payment.prototype, "created_at", void 0);
+__decorate([
+    (0, typeorm_1.UpdateDateColumn)({ default: () => "CURRENT_TIMESTAMP", onUpdate: "CURRENT_TIMESTAMP" }),
+    __metadata("design:type", Date)
+], Payment.prototype, "updated_at", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => client_entity_1.Client),
     (0, typeorm_1.JoinColumn)({ name: 'clientId' }),

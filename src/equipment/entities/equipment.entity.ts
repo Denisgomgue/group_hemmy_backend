@@ -1,5 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { EquipmentCategory } from '../../equipment-categories/entities/equipment-category.entity';
+import { Installation } from '../../installation/entities/installation.entity';
+import { Employee } from '../../employee/entities/employee.entity';
 
 export enum EquipmentStatus {
     STOCK = 'STOCK',
@@ -16,7 +18,7 @@ export enum EquipmentUseType {
     COMPANY = 'COMPANY'
 }
 
-@Entity('equipment')
+@Entity()
 export class Equipment {
     @PrimaryGeneratedColumn()
     id: number;
@@ -51,12 +53,6 @@ export class Equipment {
     useType: EquipmentUseType;
 
     @Column({ nullable: true })
-    assignedInstallationId: number;
-
-    @Column({ nullable: true })
-    assignedEmployeeId: number;
-
-    @Column({ nullable: true })
     notes: string;
 
     @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
@@ -68,4 +64,12 @@ export class Equipment {
     @ManyToOne(() => EquipmentCategory)
     @JoinColumn({ name: 'categoryId' })
     category: EquipmentCategory;
+
+    @ManyToOne(() => Installation, { nullable: true, onDelete: 'SET NULL' })
+    @JoinColumn({ name: 'installationId' })
+    installation: Installation;
+
+    @ManyToOne(() => Employee, { nullable: true, onDelete: 'SET NULL' })
+    @JoinColumn({ name: 'employeeId' })
+    employee: Employee;
 }

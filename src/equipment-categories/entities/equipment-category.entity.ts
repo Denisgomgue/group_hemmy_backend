@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-@Entity('equipment_categories')
+@Entity()
 export class EquipmentCategory {
     @PrimaryGeneratedColumn()
     id: number;
@@ -10,4 +10,10 @@ export class EquipmentCategory {
 
     @Column({ length: 100 })
     name: string;
+
+    @CreateDateColumn({ default: () => "CURRENT_TIMESTAMP" })
+    public created_at: Date;
+
+    @UpdateDateColumn({ default: () => "CURRENT_TIMESTAMP", onUpdate: "CURRENT_TIMESTAMP" })
+    public updated_at: Date;
 }

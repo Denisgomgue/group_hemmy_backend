@@ -8,6 +8,7 @@ export declare class Installation {
     id: number;
     address: string;
     ipAddress: string;
+    imagePath: string;
     installedAt: Date;
     status: InstallationStatus;
     created_at: Date;

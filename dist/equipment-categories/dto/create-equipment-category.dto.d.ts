@@ -1,7 +1,4 @@
-import { CategoryStatus } from '../entities/equipment-category.entity';
 export declare class CreateEquipmentCategoryDto {
+    code: string;
     name: string;
-    description?: string;
-    color?: string;
-    status?: CategoryStatus;
 }

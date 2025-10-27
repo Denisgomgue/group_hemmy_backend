@@ -1,4 +1,4 @@
-import { IsOptional, IsString, IsEnum, IsNumber } from 'class-validator';
+import { IsOptional, IsDateString, IsEnum, IsNumber } from 'class-validator';
 import { ActionType } from '../entities/equipment-history.entity';
 
 export class CreateEquipmentHistoryDto {
@@ -6,36 +6,16 @@ export class CreateEquipmentHistoryDto {
     actionType: ActionType;
 
     @IsOptional()
-    @IsString()
-    fromLocation?: string;
-
-    @IsOptional()
-    @IsString()
-    toLocation?: string;
-
-    @IsOptional()
-    @IsString()
-    reason?: string;
-
-    @IsOptional()
-    @IsString()
-    notes?: string;
-
-    @IsOptional()
-    @IsNumber()
-    performedBy?: number;
-
-    @IsOptional()
     @IsNumber()
     equipmentId?: number;
 
     @IsOptional()
     @IsNumber()
-    fromClientId?: number;
+    fromSectorId?: number;
 
     @IsOptional()
     @IsNumber()
-    toClientId?: number;
+    toSectorId?: number;
 
     @IsOptional()
     @IsNumber()
@@ -47,9 +27,9 @@ export class CreateEquipmentHistoryDto {
 
     @IsOptional()
     @IsNumber()
-    fromEmployeeId?: number;
+    performedBy?: number;
 
     @IsOptional()
-    @IsNumber()
-    toEmployeeId?: number;
+    @IsDateString()
+    actionDate?: string;
 }

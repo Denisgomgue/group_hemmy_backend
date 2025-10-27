@@ -15,6 +15,7 @@ const installation_entity_1 = require("../entities/installation.entity");
 class CreateInstallationDto {
     address;
     ipAddress;
+    imagePath;
     installedAt;
     status;
     clientId;
@@ -31,6 +32,11 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateInstallationDto.prototype, "ipAddress", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateInstallationDto.prototype, "imagePath", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsDateString)(),

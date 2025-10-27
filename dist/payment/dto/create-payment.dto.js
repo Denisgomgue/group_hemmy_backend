@@ -20,7 +20,6 @@ class CreatePaymentDto {
     amountTotal;
     methodCode;
     reference;
-    extraReference;
     createdByUserId;
     isVoid;
     voidReason;
@@ -60,11 +59,6 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreatePaymentDto.prototype, "reference", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsObject)(),
-    __metadata("design:type", Object)
-], CreatePaymentDto.prototype, "extraReference", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsNumber)(),

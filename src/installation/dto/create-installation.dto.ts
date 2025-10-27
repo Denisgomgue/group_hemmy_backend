@@ -11,6 +11,10 @@ export class CreateInstallationDto {
     ipAddress?: string;
 
     @IsOptional()
+    @IsString()
+    imagePath?: string;
+
+    @IsOptional()
     @IsDateString()
     installedAt?: string;
 

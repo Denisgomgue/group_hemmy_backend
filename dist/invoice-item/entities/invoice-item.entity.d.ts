@@ -1,5 +1,6 @@
 import { Service } from '../../service/entities/service.entity';
 import { Plan } from '../../plan/entities/plan.entity';
+import { Invoice } from '../../invoice/entities/invoice.entity';
 export declare enum ChargeTypeCode {
     SUBSCRIPTION = "SUBSCRIPTION",
     ADDON = "ADDON",
@@ -16,6 +17,7 @@ export declare class InvoiceItem {
     unitPrice: number;
     lineTotal: number;
     created_at: Date;
+    invoice: Invoice;
     service: Service;
     plan: Plan;
 }

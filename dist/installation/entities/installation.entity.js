@@ -22,6 +22,7 @@ let Installation = class Installation {
     id;
     address;
     ipAddress;
+    imagePath;
     installedAt;
     status;
     created_at;
@@ -42,6 +43,10 @@ __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], Installation.prototype, "ipAddress", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Installation.prototype, "imagePath", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", Date)

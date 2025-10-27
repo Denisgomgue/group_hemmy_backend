@@ -4,15 +4,12 @@ import { User } from '../../users/entities/user.entity';
 
 export enum PaymentStatusCode {
     PENDING = 'PENDING',
-    COMPLETED = 'COMPLETED',
-    FAILED = 'FAILED',
-    CANCELLED = 'CANCELLED',
-    REFUNDED = 'REFUNDED'
+    PAID = 'PAID',
+    OVERDUE = 'OVERDUE',
+    REFUNDED = 'REFUNDED',
 }
 
 export enum PaymentMethodCode {
-    // bcpp
-    // interback 3
     CASH = 'CASH',
     TRANSFER = 'TRANSFER',
     YAPE = 'YAPE',

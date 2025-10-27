@@ -1,9 +1,13 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { InstallationService } from './installation.service';
 import { InstallationController } from './installation.controller';
+import { Installation } from './entities/installation.entity';
 
 @Module({
-  controllers: [InstallationController],
-  providers: [InstallationService],
+  imports: [ TypeOrmModule.forFeature([ Installation ]) ],
+  controllers: [ InstallationController ],
+  providers: [ InstallationService ],
+  exports: [ InstallationService ],
 })
-export class InstallationModule {}
+export class InstallationModule { }

@@ -14,49 +14,19 @@ const class_validator_1 = require("class-validator");
 const equipment_history_entity_1 = require("../entities/equipment-history.entity");
 class CreateEquipmentHistoryDto {
     actionType;
-    fromLocation;
-    toLocation;
-    reason;
-    notes;
-    performedBy;
     equipmentId;
-    fromClientId;
-    toClientId;
+    fromSectorId;
+    toSectorId;
     fromInstallationId;
     toInstallationId;
-    fromEmployeeId;
-    toEmployeeId;
+    performedBy;
+    actionDate;
 }
 exports.CreateEquipmentHistoryDto = CreateEquipmentHistoryDto;
 __decorate([
     (0, class_validator_1.IsEnum)(equipment_history_entity_1.ActionType),
     __metadata("design:type", String)
 ], CreateEquipmentHistoryDto.prototype, "actionType", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], CreateEquipmentHistoryDto.prototype, "fromLocation", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], CreateEquipmentHistoryDto.prototype, "toLocation", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], CreateEquipmentHistoryDto.prototype, "reason", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], CreateEquipmentHistoryDto.prototype, "notes", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsNumber)(),
-    __metadata("design:type", Number)
-], CreateEquipmentHistoryDto.prototype, "performedBy", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsNumber)(),
@@ -66,12 +36,12 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
-], CreateEquipmentHistoryDto.prototype, "fromClientId", void 0);
+], CreateEquipmentHistoryDto.prototype, "fromSectorId", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
-], CreateEquipmentHistoryDto.prototype, "toClientId", void 0);
+], CreateEquipmentHistoryDto.prototype, "toSectorId", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsNumber)(),
@@ -86,10 +56,10 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
-], CreateEquipmentHistoryDto.prototype, "fromEmployeeId", void 0);
+], CreateEquipmentHistoryDto.prototype, "performedBy", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsNumber)(),
-    __metadata("design:type", Number)
-], CreateEquipmentHistoryDto.prototype, "toEmployeeId", void 0);
+    (0, class_validator_1.IsDateString)(),
+    __metadata("design:type", String)
+], CreateEquipmentHistoryDto.prototype, "actionDate", void 0);
 //# sourceMappingURL=create-equipment-history.dto.js.map

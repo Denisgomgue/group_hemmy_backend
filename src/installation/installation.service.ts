@@ -1,26 +1,40 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateInstallationDto } from './dto/create-installation.dto';
 import { UpdateInstallationDto } from './dto/update-installation.dto';
+import { Installation } from './entities/installation.entity';
 
 @Injectable()
 export class InstallationService {
-  create(createInstallationDto: CreateInstallationDto) {
-    return 'This action adds a new installation';
+  constructor(
+    @InjectRepository(Installation)
+    private installationRepository: Repository<Installation>,
+  ) { }
+
+  async create(createInstallationDto: CreateInstallationDto) {
+    return await this.installationRepository.save(createInstallationDto);
   }
 
-  findAll() {
-    return `This action returns all installation`;
+  async findAll() {
+    return await this.installationRepository.find({
+      relations: [ 'client', 'sector' ],
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} installation`;
+  async findOne(id: number) {
+    return await this.installationRepository.findOne({
+      where: { id },
+      relations: [ 'client', 'sector' ],
+    });
   }
 
-  update(id: number, updateInstallationDto: UpdateInstallationDto) {
-    return `This action updates a #${id} installation`;
+  async update(id: number, updateInstallationDto: UpdateInstallationDto) {
+    await this.installationRepository.update(id, updateInstallationDto);
+    return await this.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} installation`;
+  async remove(id: number) {
+    return await this.installationRepository.delete(id);
   }
 }

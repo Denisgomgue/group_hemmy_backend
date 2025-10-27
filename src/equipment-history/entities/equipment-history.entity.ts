@@ -1,5 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Equipment } from '../../equipment/entities/equipment.entity';
+import { Sector } from '../../sector/entities/sector.entity';
+import { User } from '../../users/entities/user.entity';
 
 export enum ActionType {
     ASSIGNMENT = 'assignment',
@@ -10,7 +12,7 @@ export enum ActionType {
     LOCATION_CHANGE = 'location_change'
 }
 
-@Entity('equipment_history')
+@Entity()
 export class EquipmentHistory {
     @PrimaryGeneratedColumn()
     id: number;
@@ -22,36 +24,30 @@ export class EquipmentHistory {
     actionType: ActionType;
 
     @Column({ nullable: true })
-    reason: string;
-
-    @Column({ nullable: true })
-    notes: string;
-
-    @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
-    public actionDate: Date;
-
-    @Column({ nullable: true })
-    performedBy: number;
-
-    @Column({ nullable: true })
-    fromClientId: number;
-
-    @Column({ nullable: true })
-    toClientId: number;
-
-    @Column({ nullable: true })
     fromInstallationId: number;
 
     @Column({ nullable: true })
     toInstallationId: number;
 
-    @Column({ nullable: true })
-    fromEmployeeId: number;
+    @Column()
+    actionDate: Date;
 
-    @Column({ nullable: true })
-    toEmployeeId: number;
+    @CreateDateColumn({ default: () => "CURRENT_TIMESTAMP" })
+    public created_at: Date;
 
     @ManyToOne(() => Equipment)
     @JoinColumn({ name: 'equipmentId' })
     equipment: Equipment;
+
+    @ManyToOne(() => Sector, { nullable: true })
+    @JoinColumn({ name: 'fromSectorId' })
+    fromSector: Sector;
+
+    @ManyToOne(() => Sector, { nullable: true })
+    @JoinColumn({ name: 'toSectorId' })
+    toSector: Sector;
+
+    @ManyToOne(() => User)
+    @JoinColumn({ name: 'performedBy' })
+    user: User;
 }

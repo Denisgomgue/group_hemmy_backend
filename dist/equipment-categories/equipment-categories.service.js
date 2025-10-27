@@ -28,7 +28,7 @@ let EquipmentCategoriesService = class EquipmentCategoriesService {
     }
     async findAll() {
         return await this.equipmentCategoryRepository.find({
-            order: { created_at: 'DESC' },
+            order: { id: 'DESC' },
         });
     }
     async findOne(id) {

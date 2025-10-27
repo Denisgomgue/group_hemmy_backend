@@ -12,6 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Equipment = exports.EquipmentUseType = exports.EquipmentStatus = void 0;
 const typeorm_1 = require("typeorm");
 const equipment_category_entity_1 = require("../../equipment-categories/entities/equipment-category.entity");
+const installation_entity_1 = require("../../installation/entities/installation.entity");
+const employee_entity_1 = require("../../employee/entities/employee.entity");
 var EquipmentStatus;
 (function (EquipmentStatus) {
     EquipmentStatus["STOCK"] = "STOCK";
@@ -36,12 +38,12 @@ let Equipment = class Equipment {
     status;
     assignedDate;
     useType;
-    assignedInstallationId;
-    assignedEmployeeId;
     notes;
     created_at;
     updated_at;
     category;
+    installation;
+    employee;
 };
 exports.Equipment = Equipment;
 __decorate([
@@ -86,14 +88,6 @@ __decorate([
 ], Equipment.prototype, "useType", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", Number)
-], Equipment.prototype, "assignedInstallationId", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", Number)
-], Equipment.prototype, "assignedEmployeeId", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], Equipment.prototype, "notes", void 0);
 __decorate([
@@ -109,7 +103,17 @@ __decorate([
     (0, typeorm_1.JoinColumn)({ name: 'categoryId' }),
     __metadata("design:type", equipment_category_entity_1.EquipmentCategory)
 ], Equipment.prototype, "category", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => installation_entity_1.Installation, { nullable: true, onDelete: 'SET NULL' }),
+    (0, typeorm_1.JoinColumn)({ name: 'installationId' }),
+    __metadata("design:type", installation_entity_1.Installation)
+], Equipment.prototype, "installation", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => employee_entity_1.Employee, { nullable: true, onDelete: 'SET NULL' }),
+    (0, typeorm_1.JoinColumn)({ name: 'employeeId' }),
+    __metadata("design:type", employee_entity_1.Employee)
+], Equipment.prototype, "employee", void 0);
 exports.Equipment = Equipment = __decorate([
-    (0, typeorm_1.Entity)('equipment')
+    (0, typeorm_1.Entity)()
 ], Equipment);
 //# sourceMappingURL=equipment.entity.js.map

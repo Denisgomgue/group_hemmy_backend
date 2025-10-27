@@ -11,7 +11,7 @@ export class UserRole {
     assignedAt: Date;
 
     @ManyToOne(() => User, { nullable: true, onDelete: 'SET NULL', onUpdate: 'CASCADE' })
-    @JoinColumn({ name: 'appUserId' })
+    @JoinColumn({ name: 'UserId' })
     user: User;
 
     @ManyToOne(() => Role, { nullable: true, onDelete: 'SET NULL', onUpdate: 'CASCADE' })

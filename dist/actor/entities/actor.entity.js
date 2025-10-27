@@ -23,6 +23,7 @@ let Actor = class Actor {
     kind;
     displayName;
     created_at;
+    updated_at;
     person;
     organization;
 };
@@ -47,6 +48,10 @@ __decorate([
     (0, typeorm_1.CreateDateColumn)({ default: () => "CURRENT_TIMESTAMP" }),
     __metadata("design:type", Date)
 ], Actor.prototype, "created_at", void 0);
+__decorate([
+    (0, typeorm_1.UpdateDateColumn)({ default: () => "CURRENT_TIMESTAMP", onUpdate: "CURRENT_TIMESTAMP" }),
+    __metadata("design:type", Date)
+], Actor.prototype, "updated_at", void 0);
 __decorate([
     (0, typeorm_1.OneToOne)(() => person_entity_1.Person, { nullable: true, onDelete: 'SET NULL', onUpdate: 'CASCADE' }),
     (0, typeorm_1.JoinColumn)({ name: 'personId' }),

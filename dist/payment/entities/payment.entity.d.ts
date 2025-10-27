@@ -2,18 +2,15 @@ import { Client } from '../../client/entities/client.entity';
 import { User } from '../../users/entities/user.entity';
 export declare enum PaymentStatusCode {
     PENDING = "PENDING",
-    COMPLETED = "COMPLETED",
-    FAILED = "FAILED",
-    CANCELLED = "CANCELLED",
+    PAID = "PAID",
+    OVERDUE = "OVERDUE",
     REFUNDED = "REFUNDED"
 }
 export declare enum PaymentMethodCode {
     CASH = "CASH",
-    BANK_TRANSFER = "BANK_TRANSFER",
-    CREDIT_CARD = "CREDIT_CARD",
-    DEBIT_CARD = "DEBIT_CARD",
-    PAYPAL = "PAYPAL",
-    CHECK = "CHECK",
+    TRANSFER = "TRANSFER",
+    YAPE = "YAPE",
+    PLIN = "PLIN",
     OTHER = "OTHER"
 }
 export declare class Payment {
@@ -24,11 +21,11 @@ export declare class Payment {
     amountTotal: number;
     methodCode: PaymentMethodCode;
     reference: string;
-    extraReference: any;
     isVoid: boolean;
     voidReason: string;
     voidedAt: Date;
     created_at: Date;
+    updated_at: Date;
     client: Client;
     createdByUser: User;
     voidedByUser: User;

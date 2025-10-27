@@ -13,6 +13,7 @@ exports.InvoiceItem = exports.ChargeTypeCode = void 0;
 const typeorm_1 = require("typeorm");
 const service_entity_1 = require("../../service/entities/service.entity");
 const plan_entity_1 = require("../../plan/entities/plan.entity");
+const invoice_entity_1 = require("../../invoice/entities/invoice.entity");
 var ChargeTypeCode;
 (function (ChargeTypeCode) {
     ChargeTypeCode["SUBSCRIPTION"] = "SUBSCRIPTION";
@@ -30,6 +31,7 @@ let InvoiceItem = class InvoiceItem {
     unitPrice;
     lineTotal;
     created_at;
+    invoice;
     service;
     plan;
 };
@@ -70,6 +72,11 @@ __decorate([
     (0, typeorm_1.CreateDateColumn)({ default: () => "CURRENT_TIMESTAMP" }),
     __metadata("design:type", Date)
 ], InvoiceItem.prototype, "created_at", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => invoice_entity_1.Invoice),
+    (0, typeorm_1.JoinColumn)({ name: 'invoiceId' }),
+    __metadata("design:type", invoice_entity_1.Invoice)
+], InvoiceItem.prototype, "invoice", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => service_entity_1.Service),
     (0, typeorm_1.JoinColumn)({ name: 'serviceId' }),

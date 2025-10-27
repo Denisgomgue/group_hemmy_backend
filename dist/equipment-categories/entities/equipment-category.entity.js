@@ -9,23 +9,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EquipmentCategory = exports.CategoryStatus = void 0;
+exports.EquipmentCategory = void 0;
 const typeorm_1 = require("typeorm");
-const equipment_entity_1 = require("../../equipment/entities/equipment.entity");
-var CategoryStatus;
-(function (CategoryStatus) {
-    CategoryStatus["ACTIVE"] = "active";
-    CategoryStatus["INACTIVE"] = "inactive";
-})(CategoryStatus || (exports.CategoryStatus = CategoryStatus = {}));
 let EquipmentCategory = class EquipmentCategory {
     id;
+    code;
     name;
-    description;
-    color;
-    status;
     created_at;
     updated_at;
-    equipment;
 };
 exports.EquipmentCategory = EquipmentCategory;
 __decorate([
@@ -33,38 +24,22 @@ __decorate([
     __metadata("design:type", Number)
 ], EquipmentCategory.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ length: 32, unique: true }),
+    __metadata("design:type", String)
+], EquipmentCategory.prototype, "code", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ length: 100 }),
     __metadata("design:type", String)
 ], EquipmentCategory.prototype, "name", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
-], EquipmentCategory.prototype, "description", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
-], EquipmentCategory.prototype, "color", void 0);
-__decorate([
-    (0, typeorm_1.Column)({
-        type: 'enum',
-        enum: CategoryStatus,
-        default: CategoryStatus.ACTIVE
-    }),
-    __metadata("design:type", String)
-], EquipmentCategory.prototype, "status", void 0);
-__decorate([
-    (0, typeorm_1.CreateDateColumn)({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" }),
+    (0, typeorm_1.CreateDateColumn)({ default: () => "CURRENT_TIMESTAMP" }),
     __metadata("design:type", Date)
 ], EquipmentCategory.prototype, "created_at", void 0);
 __decorate([
-    (0, typeorm_1.UpdateDateColumn)({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)", onUpdate: "CURRENT_TIMESTAMP(6)" }),
+    (0, typeorm_1.UpdateDateColumn)({ default: () => "CURRENT_TIMESTAMP", onUpdate: "CURRENT_TIMESTAMP" }),
     __metadata("design:type", Date)
 ], EquipmentCategory.prototype, "updated_at", void 0);
-__decorate([
-    (0, typeorm_1.OneToMany)(() => equipment_entity_1.Equipment, equipment => equipment.category),
-    __metadata("design:type", Array)
-], EquipmentCategory.prototype, "equipment", void 0);
 exports.EquipmentCategory = EquipmentCategory = __decorate([
-    (0, typeorm_1.Entity)('equipment_categories')
+    (0, typeorm_1.Entity)()
 ], EquipmentCategory);
 //# sourceMappingURL=equipment-category.entity.js.map

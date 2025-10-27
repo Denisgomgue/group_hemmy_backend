@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PersonModule } from './person/person.module';
@@ -30,6 +32,9 @@ import { InvoiceLedgerModule } from './invoice-ledger/invoice-ledger.module';
 import { PaymentModule } from './payment/payment.module';
 import { PaymentItemModule } from './payment-item/payment-item.module';
 import { PaymentDeferralModule } from './payment-deferral/payment-deferral.module';
+import { InstallationEquipmentModule } from './installation-equipment/installation-equipment.module';
+import { AuthModule } from './auth/auth.module';
+import { DatabaseSeederModule } from './database/seeders/database-seeder.module';
 
 @Module({
   imports: [
@@ -39,13 +44,14 @@ import { PaymentDeferralModule } from './payment-deferral/payment-deferral.modul
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DB_HOST,
-      port: parseInt(process.env.DB_PORT ?? '3306'),
+      port: parseInt(process.env.DB_PORT || '3306'),
       username: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
+      password: process.env.DB_PASSWORD || '',
       database: process.env.DB_NAME,
       entities: [ __dirname + '/**/*.entity{.ts,.js}' ],
-      synchronize: process.env.NODE_ENV !== 'production',
+      synchronize: true,
       timezone: 'Z',
+        logging: [ 'error', 'warn' ], // Temporal: para verificar si el pool se destruye/recicla
     }),
     PersonModule,
     EquipmentModule,
@@ -73,9 +79,18 @@ import { PaymentDeferralModule } from './payment-deferral/payment-deferral.modul
     InvoiceLedgerModule,
     PaymentModule,
     PaymentItemModule,
-    PaymentDeferralModule
+    PaymentDeferralModule,
+    InstallationEquipmentModule,
+    AuthModule,
+    DatabaseSeederModule
   ],
   controllers: [ AppController ],
-  providers: [ AppService ],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ],
 })
 export class AppModule { }

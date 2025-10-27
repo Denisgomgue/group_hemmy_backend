@@ -9,6 +9,7 @@ export declare class Actor {
     kind: ActorKind;
     displayName: string;
     created_at: Date;
+    updated_at: Date;
     person: Person;
     organization: Organization;
 }

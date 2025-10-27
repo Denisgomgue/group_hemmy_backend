@@ -1,4 +1,6 @@
 import { EquipmentCategory } from '../../equipment-categories/entities/equipment-category.entity';
+import { Installation } from '../../installation/entities/installation.entity';
+import { Employee } from '../../employee/entities/employee.entity';
 export declare enum EquipmentStatus {
     STOCK = "STOCK",
     ASSIGNED = "ASSIGNED",
@@ -21,10 +23,10 @@ export declare class Equipment {
     status: EquipmentStatus;
     assignedDate: Date;
     useType: EquipmentUseType;
-    assignedInstallationId: number;
-    assignedEmployeeId: number;
     notes: string;
     created_at: Date;
     updated_at: Date;
     category: EquipmentCategory;
+    installation: Installation;
+    employee: Employee;
 }

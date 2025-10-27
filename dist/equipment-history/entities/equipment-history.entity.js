@@ -12,6 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.EquipmentHistory = exports.ActionType = void 0;
 const typeorm_1 = require("typeorm");
 const equipment_entity_1 = require("../../equipment/entities/equipment.entity");
+const sector_entity_1 = require("../../sector/entities/sector.entity");
+const user_entity_1 = require("../../users/entities/user.entity");
 var ActionType;
 (function (ActionType) {
     ActionType["ASSIGNMENT"] = "assignment";
@@ -24,19 +26,14 @@ var ActionType;
 let EquipmentHistory = class EquipmentHistory {
     id;
     actionType;
-    fromLocation;
-    toLocation;
-    reason;
-    notes;
-    actionDate;
-    performedBy;
-    fromClientId;
-    toClientId;
     fromInstallationId;
     toInstallationId;
-    fromEmployeeId;
-    toEmployeeId;
+    actionDate;
+    created_at;
     equipment;
+    fromSector;
+    toSector;
+    user;
 };
 exports.EquipmentHistory = EquipmentHistory;
 __decorate([
@@ -52,38 +49,6 @@ __decorate([
 ], EquipmentHistory.prototype, "actionType", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
-], EquipmentHistory.prototype, "fromLocation", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
-], EquipmentHistory.prototype, "toLocation", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
-], EquipmentHistory.prototype, "reason", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
-], EquipmentHistory.prototype, "notes", void 0);
-__decorate([
-    (0, typeorm_1.CreateDateColumn)({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" }),
-    __metadata("design:type", Date)
-], EquipmentHistory.prototype, "actionDate", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", Number)
-], EquipmentHistory.prototype, "performedBy", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", Number)
-], EquipmentHistory.prototype, "fromClientId", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", Number)
-], EquipmentHistory.prototype, "toClientId", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", Number)
 ], EquipmentHistory.prototype, "fromInstallationId", void 0);
 __decorate([
@@ -91,19 +56,34 @@ __decorate([
     __metadata("design:type", Number)
 ], EquipmentHistory.prototype, "toInstallationId", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", Number)
-], EquipmentHistory.prototype, "fromEmployeeId", void 0);
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Date)
+], EquipmentHistory.prototype, "actionDate", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", Number)
-], EquipmentHistory.prototype, "toEmployeeId", void 0);
+    (0, typeorm_1.CreateDateColumn)({ default: () => "CURRENT_TIMESTAMP" }),
+    __metadata("design:type", Date)
+], EquipmentHistory.prototype, "created_at", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => equipment_entity_1.Equipment),
     (0, typeorm_1.JoinColumn)({ name: 'equipmentId' }),
     __metadata("design:type", equipment_entity_1.Equipment)
 ], EquipmentHistory.prototype, "equipment", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => sector_entity_1.Sector, { nullable: true }),
+    (0, typeorm_1.JoinColumn)({ name: 'fromSectorId' }),
+    __metadata("design:type", sector_entity_1.Sector)
+], EquipmentHistory.prototype, "fromSector", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => sector_entity_1.Sector, { nullable: true }),
+    (0, typeorm_1.JoinColumn)({ name: 'toSectorId' }),
+    __metadata("design:type", sector_entity_1.Sector)
+], EquipmentHistory.prototype, "toSector", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User),
+    (0, typeorm_1.JoinColumn)({ name: 'performedBy' }),
+    __metadata("design:type", user_entity_1.User)
+], EquipmentHistory.prototype, "user", void 0);
 exports.EquipmentHistory = EquipmentHistory = __decorate([
-    (0, typeorm_1.Entity)('equipment_history')
+    (0, typeorm_1.Entity)()
 ], EquipmentHistory);
 //# sourceMappingURL=equipment-history.entity.js.map

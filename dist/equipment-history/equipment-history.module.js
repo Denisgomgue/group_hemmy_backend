@@ -12,12 +12,13 @@ const typeorm_1 = require("@nestjs/typeorm");
 const equipment_history_service_1 = require("./equipment-history.service");
 const equipment_history_controller_1 = require("./equipment-history.controller");
 const equipment_history_entity_1 = require("./entities/equipment-history.entity");
+const installation_entity_1 = require("../installation/entities/installation.entity");
 let EquipmentHistoryModule = class EquipmentHistoryModule {
 };
 exports.EquipmentHistoryModule = EquipmentHistoryModule;
 exports.EquipmentHistoryModule = EquipmentHistoryModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([equipment_history_entity_1.EquipmentHistory])],
+        imports: [typeorm_1.TypeOrmModule.forFeature([equipment_history_entity_1.EquipmentHistory, installation_entity_1.Installation])],
         controllers: [equipment_history_controller_1.EquipmentHistoryController],
         providers: [equipment_history_service_1.EquipmentHistoryService],
         exports: [equipment_history_service_1.EquipmentHistoryService],

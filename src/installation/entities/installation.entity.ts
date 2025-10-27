@@ -19,6 +19,9 @@ export class Installation {
     ipAddress: string;
 
     @Column({ nullable: true })
+    imagePath: string;
+
+    @Column({ nullable: true })
     installedAt: Date;
 
     @Column({

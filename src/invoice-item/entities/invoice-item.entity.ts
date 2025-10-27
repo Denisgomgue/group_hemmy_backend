@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Service } from '../../service/entities/service.entity';
 import { Plan } from '../../plan/entities/plan.entity';
+import { Invoice } from '../../invoice/entities/invoice.entity';
 
 export enum ChargeTypeCode {
     SUBSCRIPTION = 'SUBSCRIPTION',
@@ -39,6 +40,10 @@ export class InvoiceItem {
 
     @CreateDateColumn({ default: () => "CURRENT_TIMESTAMP" })
     public created_at: Date;
+
+    @ManyToOne(() => Invoice)
+    @JoinColumn({ name: 'invoiceId' })
+    invoice: Invoice;
 
     @ManyToOne(() => Service)
     @JoinColumn({ name: 'serviceId' })

@@ -11,31 +11,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateEquipmentCategoryDto = void 0;
 const class_validator_1 = require("class-validator");
-const equipment_category_entity_1 = require("../entities/equipment-category.entity");
 class CreateEquipmentCategoryDto {
+    code;
     name;
-    description;
-    color;
-    status;
 }
 exports.CreateEquipmentCategoryDto = CreateEquipmentCategoryDto;
 __decorate([
     (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MaxLength)(32),
+    __metadata("design:type", String)
+], CreateEquipmentCategoryDto.prototype, "code", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MaxLength)(100),
     __metadata("design:type", String)
 ], CreateEquipmentCategoryDto.prototype, "name", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], CreateEquipmentCategoryDto.prototype, "description", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], CreateEquipmentCategoryDto.prototype, "color", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsEnum)(equipment_category_entity_1.CategoryStatus),
-    __metadata("design:type", String)
-], CreateEquipmentCategoryDto.prototype, "status", void 0);
 //# sourceMappingURL=create-equipment-category.dto.js.map

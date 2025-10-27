@@ -19,7 +19,7 @@ export class EquipmentCategoriesService {
 
   async findAll(): Promise<EquipmentCategory[]> {
     return await this.equipmentCategoryRepository.find({
-      order: { created_at: 'DESC' },
+      order: { id: 'DESC' },
     });
   }
 

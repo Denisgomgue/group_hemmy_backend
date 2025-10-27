@@ -7,7 +7,6 @@ export declare class CreatePaymentDto {
     amountTotal: number;
     methodCode?: PaymentMethodCode;
     reference?: string;
-    extraReference?: any;
     createdByUserId?: number;
     isVoid?: boolean;
     voidReason?: string;

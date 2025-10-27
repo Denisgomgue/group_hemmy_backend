@@ -31,7 +31,7 @@ __decorate([
 ], UserRole.prototype, "assignedAt", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => user_entity_1.User, { nullable: true, onDelete: 'SET NULL', onUpdate: 'CASCADE' }),
-    (0, typeorm_1.JoinColumn)({ name: 'appUserId' }),
+    (0, typeorm_1.JoinColumn)({ name: 'UserId' }),
     __metadata("design:type", user_entity_1.User)
 ], UserRole.prototype, "user", void 0);
 __decorate([

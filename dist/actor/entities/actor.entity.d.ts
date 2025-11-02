@@ -10,6 +10,8 @@ export declare class Actor {
     displayName: string;
     created_at: Date;
     updated_at: Date;
+    personId: number;
     person: Person;
+    organizationId: number;
     organization: Organization;
 }

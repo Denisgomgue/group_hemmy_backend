@@ -13,8 +13,36 @@ export class ActorService {
   ) { }
 
   async create(createActorDto: CreateActorDto): Promise<Actor> {
-    const actor = this.actorRepository.create(createActorDto);
-    return await this.actorRepository.save(actor);
+    // Crear el actor directamente usando insert para asegurar que las foreign keys se guarden
+    const actorData: any = {
+      kind: createActorDto.kind,
+      displayName: createActorDto.displayName,
+    };
+
+    // Asignar personId u organizationId según corresponda
+    // TypeORM necesita estos valores directamente en el objeto cuando usamos @JoinColumn
+    if (createActorDto.personId) {
+      actorData.personId = createActorDto.personId;
+    }
+    if (createActorDto.organizationId) {
+      actorData.organizationId = createActorDto.organizationId;
+    }
+
+    // Usar insert directamente para asegurar que las foreign keys se guarden
+    const insertResult = await this.actorRepository.insert(actorData);
+    const actorId = insertResult.identifiers[ 0 ].id;
+
+    // Cargar el actor con sus relaciones
+    const savedActor = await this.actorRepository.findOne({
+      where: { id: actorId },
+      relations: [ 'person', 'organization' ],
+    });
+
+    if (!savedActor) {
+      throw new Error('Error al crear el actor');
+    }
+
+    return savedActor;
   }
 
   async findAll(): Promise<Actor[]> {

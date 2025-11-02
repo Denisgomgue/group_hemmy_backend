@@ -20,8 +20,8 @@ class CreateEquipmentDto {
     status;
     assignedDate;
     useType;
-    assignedInstallationId;
-    assignedEmployeeId;
+    installationId;
+    employeeId;
     categoryId;
     notes;
 }
@@ -65,12 +65,12 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
-], CreateEquipmentDto.prototype, "assignedInstallationId", void 0);
+], CreateEquipmentDto.prototype, "installationId", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
-], CreateEquipmentDto.prototype, "assignedEmployeeId", void 0);
+], CreateEquipmentDto.prototype, "employeeId", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsNumber)(),

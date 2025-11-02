@@ -5,28 +5,73 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EmployeeService = void 0;
 const common_1 = require("@nestjs/common");
+const typeorm_1 = require("@nestjs/typeorm");
+const typeorm_2 = require("typeorm");
+const employee_entity_1 = require("./entities/employee.entity");
 let EmployeeService = class EmployeeService {
-    create(createEmployeeDto) {
-        return 'This action adds a new employee';
+    employeeRepository;
+    constructor(employeeRepository) {
+        this.employeeRepository = employeeRepository;
     }
-    findAll() {
-        return `This action returns all employee`;
+    async create(createEmployeeDto) {
+        const employeeData = {
+            personId: createEmployeeDto.personId,
+            status: createEmployeeDto.status,
+            jobTitle: createEmployeeDto.jobTitle,
+            hireDate: createEmployeeDto.hireDate ? new Date(createEmployeeDto.hireDate) : null,
+        };
+        const insertResult = await this.employeeRepository.insert(employeeData);
+        const employeeId = insertResult.identifiers[0].id;
+        const savedEmployee = await this.employeeRepository.findOne({
+            where: { id: employeeId },
+            relations: ['person'],
+        });
+        if (!savedEmployee) {
+            throw new Error('Error al crear el empleado');
+        }
+        return savedEmployee;
     }
-    findOne(id) {
-        return `This action returns a #${id} employee`;
+    async findAll() {
+        return await this.employeeRepository.find({
+            relations: ['person'],
+            order: { created_at: 'DESC' },
+        });
     }
-    update(id, updateEmployeeDto) {
-        return `This action updates a #${id} employee`;
+    async findOne(id) {
+        return await this.employeeRepository.findOne({
+            where: { id },
+            relations: ['person'],
+        });
     }
-    remove(id) {
-        return `This action removes a #${id} employee`;
+    async update(id, updateEmployeeDto) {
+        const updateData = {};
+        if (updateEmployeeDto.status !== undefined)
+            updateData.status = updateEmployeeDto.status;
+        if (updateEmployeeDto.jobTitle !== undefined)
+            updateData.jobTitle = updateEmployeeDto.jobTitle;
+        if (updateEmployeeDto.hireDate !== undefined) {
+            updateData.hireDate = updateEmployeeDto.hireDate ? new Date(updateEmployeeDto.hireDate) : null;
+        }
+        await this.employeeRepository.update(id, updateData);
+        return await this.findOne(id);
+    }
+    async remove(id) {
+        await this.employeeRepository.delete(id);
     }
 };
 exports.EmployeeService = EmployeeService;
 exports.EmployeeService = EmployeeService = __decorate([
-    (0, common_1.Injectable)()
+    (0, common_1.Injectable)(),
+    __param(0, (0, typeorm_1.InjectRepository)(employee_entity_1.Employee)),
+    __metadata("design:paramtypes", [typeorm_2.Repository])
 ], EmployeeService);
 //# sourceMappingURL=employee.service.js.map

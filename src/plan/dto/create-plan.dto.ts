@@ -16,6 +16,10 @@ export class CreatePlanDto {
     speedMbps?: number;
 
     @IsOptional()
+    @IsBoolean()
+    type?: boolean;
+
+    @IsOptional()
     @IsString()
     description?: string;
 

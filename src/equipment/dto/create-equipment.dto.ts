@@ -32,11 +32,11 @@ export class CreateEquipmentDto {
 
     @IsOptional()
     @IsNumber()
-    assignedInstallationId?: number;
+    installationId?: number;
 
     @IsOptional()
     @IsNumber()
-    assignedEmployeeId?: number;
+    employeeId?: number;
 
     @IsOptional()
     @IsNumber()

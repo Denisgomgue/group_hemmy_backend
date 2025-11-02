@@ -1,9 +1,13 @@
+import { Repository } from 'typeorm';
 import { CreateSubscriptionDto } from './dto/create-subscription.dto';
 import { UpdateSubscriptionDto } from './dto/update-subscription.dto';
+import { Subscription } from './entities/subscription.entity';
 export declare class SubscriptionService {
-    create(createSubscriptionDto: CreateSubscriptionDto): string;
-    findAll(): string;
-    findOne(id: number): string;
-    update(id: number, updateSubscriptionDto: UpdateSubscriptionDto): string;
-    remove(id: number): string;
+    private subscriptionRepository;
+    constructor(subscriptionRepository: Repository<Subscription>);
+    create(createSubscriptionDto: CreateSubscriptionDto): Promise<CreateSubscriptionDto & Subscription>;
+    findAll(): Promise<Subscription[]>;
+    findOne(id: number): Promise<Subscription | null>;
+    update(id: number, updateSubscriptionDto: UpdateSubscriptionDto): Promise<Subscription | null>;
+    remove(id: number): Promise<import("typeorm").DeleteResult>;
 }

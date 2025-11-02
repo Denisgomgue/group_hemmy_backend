@@ -19,6 +19,7 @@ var EmployeeStatus;
 })(EmployeeStatus || (exports.EmployeeStatus = EmployeeStatus = {}));
 let Employee = class Employee {
     id;
+    personId;
     hireDate;
     status;
     jobTitle;
@@ -31,6 +32,10 @@ __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
 ], Employee.prototype, "id", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Number)
+], Employee.prototype, "personId", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", Date)

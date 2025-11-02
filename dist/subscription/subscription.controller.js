@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const subscription_service_1 = require("./subscription.service");
 const create_subscription_dto_1 = require("./dto/create-subscription.dto");
 const update_subscription_dto_1 = require("./dto/update-subscription.dto");
+const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
 let SubscriptionController = class SubscriptionController {
     subscriptionService;
     constructor(subscriptionService) {
@@ -76,6 +77,7 @@ __decorate([
 ], SubscriptionController.prototype, "remove", null);
 exports.SubscriptionController = SubscriptionController = __decorate([
     (0, common_1.Controller)('subscription'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __metadata("design:paramtypes", [subscription_service_1.SubscriptionService])
 ], SubscriptionController);
 //# sourceMappingURL=subscription.controller.js.map

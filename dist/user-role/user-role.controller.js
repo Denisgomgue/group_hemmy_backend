@@ -17,6 +17,9 @@ const common_1 = require("@nestjs/common");
 const user_role_service_1 = require("./user-role.service");
 const create_user_role_dto_1 = require("./dto/create-user-role.dto");
 const update_user_role_dto_1 = require("./dto/update-user-role.dto");
+const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
+const permissions_guard_1 = require("../auth/guards/permissions.guard");
+const permissions_decorator_1 = require("../auth/decorators/permissions.decorator");
 let UserRoleController = class UserRoleController {
     userRoleService;
     constructor(userRoleService) {
@@ -76,6 +79,8 @@ __decorate([
 ], UserRoleController.prototype, "remove", null);
 exports.UserRoleController = UserRoleController = __decorate([
     (0, common_1.Controller)('user-role'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, permissions_guard_1.PermissionsGuard),
+    (0, permissions_decorator_1.Permissions)('roles:manage'),
     __metadata("design:paramtypes", [user_role_service_1.UserRoleService])
 ], UserRoleController);
 //# sourceMappingURL=user-role.controller.js.map

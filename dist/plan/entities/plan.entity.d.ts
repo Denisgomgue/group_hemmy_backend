@@ -6,6 +6,8 @@ export declare class Plan {
     speedMbps: number;
     description: string;
     isActive: boolean;
+    type: boolean;
+    serviceId: number;
     created_at: Date;
     updated_at: Date;
     service: Service;

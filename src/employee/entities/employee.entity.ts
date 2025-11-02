@@ -12,6 +12,9 @@ export class Employee {
     id: number;
 
     @Column({ nullable: true })
+    personId: number;
+
+    @Column({ nullable: true })
     hireDate: Date;
 
     @Column({

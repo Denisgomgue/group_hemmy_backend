@@ -24,6 +24,9 @@ export declare class Equipment {
     assignedDate: Date;
     useType: EquipmentUseType;
     notes: string;
+    categoryId: number;
+    installationId: number;
+    employeeId: number;
     created_at: Date;
     updated_at: Date;
     category: EquipmentCategory;

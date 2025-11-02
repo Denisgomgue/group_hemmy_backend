@@ -4,9 +4,9 @@ import { UpdateRolePermissionDto } from './dto/update-role-permission.dto';
 export declare class RolePermissionController {
     private readonly rolePermissionService;
     constructor(rolePermissionService: RolePermissionService);
-    create(createRolePermissionDto: CreateRolePermissionDto): string;
-    findAll(): string;
-    findOne(id: string): string;
-    update(id: string, updateRolePermissionDto: UpdateRolePermissionDto): string;
-    remove(id: string): string;
+    create(createRolePermissionDto: CreateRolePermissionDto): Promise<import("./entities/role-permission.entity").RolePermission>;
+    findAll(): Promise<import("./entities/role-permission.entity").RolePermission[]>;
+    findOne(id: string): Promise<import("./entities/role-permission.entity").RolePermission>;
+    update(id: string, updateRolePermissionDto: UpdateRolePermissionDto): Promise<import("./entities/role-permission.entity").RolePermission>;
+    remove(id: string): Promise<import("./entities/role-permission.entity").RolePermission>;
 }

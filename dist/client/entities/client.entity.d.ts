@@ -9,5 +9,6 @@ export declare class Client {
     status: ClientStatus;
     created_at: Date;
     updated_at: Date;
+    actorId: number;
     actor: Actor;
 }

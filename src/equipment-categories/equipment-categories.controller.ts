@@ -1,11 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { EquipmentCategoriesService } from './equipment-categories.service';
 import { CreateEquipmentCategoryDto } from './dto/create-equipment-category.dto';
 import { UpdateEquipmentCategoryDto } from './dto/update-equipment-category.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('equipment-categories')
+@UseGuards(JwtAuthGuard)
 export class EquipmentCategoriesController {
-  constructor(private readonly equipmentCategoriesService: EquipmentCategoriesService) {}
+  constructor(private readonly equipmentCategoriesService: EquipmentCategoriesService) { }
 
   @Post()
   create(@Body() createEquipmentCategoryDto: CreateEquipmentCategoryDto) {

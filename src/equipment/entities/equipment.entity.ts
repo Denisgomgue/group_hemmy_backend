@@ -55,6 +55,15 @@ export class Equipment {
     @Column({ nullable: true })
     notes: string;
 
+    @Column({ nullable: true })
+    categoryId: number;
+
+    @Column({ nullable: true })
+    installationId: number;
+
+    @Column({ nullable: true })
+    employeeId: number;
+
     @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
     public created_at: Date;
 

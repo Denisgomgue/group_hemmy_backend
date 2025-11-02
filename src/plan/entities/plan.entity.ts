@@ -21,6 +21,12 @@ export class Plan {
     @Column({ default: true })
     isActive: boolean;
 
+    @Column({ nullable: true, default: false })
+    type: boolean;
+
+    @Column({ nullable: true })
+    serviceId: number;
+
     @CreateDateColumn({ default: () => "CURRENT_TIMESTAMP" })
     public created_at: Date;
 

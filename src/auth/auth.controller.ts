@@ -87,7 +87,20 @@ export class AuthController {
     @Post('profile')
     @HttpCode(HttpStatus.OK)
     async getProfile(@Request() req) {
-        return req.user;
+        const user = req.user;
+
+        // Asegurarnos de que los roles y permisos estén cargados
+        // (ya están cargados en JWT strategy, pero los devolvemos estructurados)
+        const profile = {
+            id: user.id,
+            isActive: user.isActive,
+            actor: user.actor,
+            roles: (user as any).roles || [],
+            created_at: user.created_at,
+            updated_at: user.updated_at,
+        };
+
+        return profile;
     }
 }
 

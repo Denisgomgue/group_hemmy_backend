@@ -39,6 +39,9 @@ let Equipment = class Equipment {
     assignedDate;
     useType;
     notes;
+    categoryId;
+    installationId;
+    employeeId;
     created_at;
     updated_at;
     category;
@@ -90,6 +93,18 @@ __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], Equipment.prototype, "notes", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Number)
+], Equipment.prototype, "categoryId", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Number)
+], Equipment.prototype, "installationId", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Number)
+], Equipment.prototype, "employeeId", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" }),
     __metadata("design:type", Date)

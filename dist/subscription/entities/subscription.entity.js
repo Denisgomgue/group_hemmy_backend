@@ -29,7 +29,9 @@ let Subscription = class Subscription {
     advancePayment;
     created_at;
     updated_at;
+    installationId;
     installation;
+    planId;
     plan;
 };
 exports.Subscription = Subscription;
@@ -69,10 +71,18 @@ __decorate([
     __metadata("design:type", Date)
 ], Subscription.prototype, "updated_at", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Number)
+], Subscription.prototype, "installationId", void 0);
+__decorate([
     (0, typeorm_1.ManyToOne)(() => installation_entity_1.Installation),
     (0, typeorm_1.JoinColumn)({ name: 'installationId' }),
     __metadata("design:type", installation_entity_1.Installation)
 ], Subscription.prototype, "installation", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Number)
+], Subscription.prototype, "planId", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => plan_entity_1.Plan),
     (0, typeorm_1.JoinColumn)({ name: 'planId' }),

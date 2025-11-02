@@ -25,6 +25,11 @@ export class PermissionsGuard implements CanActivate {
         // Obtener permisos del usuario (desde roles y permisos directos)
         const userPermissions = this.extractPermissions(user);
 
+        // Si tiene permiso '*', permitir todo
+        if (userPermissions.includes('*')) {
+            return true;
+        }
+
         const hasPermission = requiredPermissions.some((permission) =>
             userPermissions.includes(permission),
         );
@@ -39,13 +44,28 @@ export class PermissionsGuard implements CanActivate {
     private extractPermissions(user: any): string[] {
         const permissions: string[] = [];
 
-        // Permisos desde roles
+        // Verificar si tiene rol SUPERADMIN con permiso '*'
         if (user.roles) {
+            for (const userRole of user.roles) {
+                if (userRole.role?.code === 'SUPERADMIN') {
+                    // Verificar si el rol SUPERADMIN tiene permiso '*'
+                    if (userRole.role?.permissions) {
+                        const hasWildcard = userRole.role.permissions.some(
+                            (rp: any) => rp.permission?.code === '*' || rp.code === '*'
+                        );
+                        if (hasWildcard) {
+                            return [ '*' ]; // Retornar permiso wildcard inmediatamente
+                        }
+                    }
+                }
+            }
+
+            // Extraer permisos de todos los roles
             user.roles.forEach((userRole: any) => {
                 if (userRole.role?.permissions) {
                     userRole.role.permissions.forEach((rolePermission: any) => {
-                        const permCode = rolePermission.permission?.code;
-                        if (permCode) {
+                        const permCode = rolePermission.permission?.code || rolePermission.code;
+                        if (permCode && permCode !== '*') {
                             permissions.push(permCode);
                         }
                     });
@@ -57,7 +77,7 @@ export class PermissionsGuard implements CanActivate {
         if (user.permissions) {
             user.permissions.forEach((userPermission: any) => {
                 const permCode = userPermission.permission?.code;
-                if (permCode) {
+                if (permCode && permCode !== '*') {
                     permissions.push(permCode);
                 }
             });

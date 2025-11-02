@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const equipment_service_1 = require("./equipment.service");
 const create_equipment_dto_1 = require("./dto/create-equipment.dto");
 const update_equipment_dto_1 = require("./dto/update-equipment.dto");
+const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
 let EquipmentController = class EquipmentController {
     equipmentService;
     constructor(equipmentService) {
@@ -76,6 +77,7 @@ __decorate([
 ], EquipmentController.prototype, "remove", null);
 exports.EquipmentController = EquipmentController = __decorate([
     (0, common_1.Controller)('equipment'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __metadata("design:paramtypes", [equipment_service_1.EquipmentService])
 ], EquipmentController);
 //# sourceMappingURL=equipment.controller.js.map

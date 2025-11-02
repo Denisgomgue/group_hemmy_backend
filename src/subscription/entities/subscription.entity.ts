@@ -38,9 +38,15 @@ export class Subscription {
     @UpdateDateColumn({ default: () => "CURRENT_TIMESTAMP", onUpdate: "CURRENT_TIMESTAMP" })
     public updated_at: Date;
 
+    @Column({ nullable: true })
+    installationId: number;
+
     @ManyToOne(() => Installation)
     @JoinColumn({ name: 'installationId' })
     installation: Installation;
+
+    @Column({ nullable: true })
+    planId: number;
 
     @ManyToOne(() => Plan)
     @JoinColumn({ name: 'planId' })

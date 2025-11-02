@@ -5,7 +5,7 @@ export enum ClientStatus {
     ACTIVE = 'ACTIVE',
     INACTIVE = 'INACTIVE',
     SUSPENDED = 'SUSPENDED'
-} 
+}
 
 
 @Entity()
@@ -13,7 +13,7 @@ export class Client {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column( {
+    @Column({
         type: 'enum',
         enum: ClientStatus,
         nullable: true
@@ -25,6 +25,9 @@ export class Client {
 
     @UpdateDateColumn({ default: () => "CURRENT_TIMESTAMP", onUpdate: "CURRENT_TIMESTAMP" })
     public updated_at: Date;
+
+    @Column({ nullable: true })
+    actorId: number;
 
     @ManyToOne(() => Actor)
     @JoinColumn({ name: 'actorId' })

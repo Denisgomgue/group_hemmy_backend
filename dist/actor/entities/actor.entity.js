@@ -24,7 +24,9 @@ let Actor = class Actor {
     displayName;
     created_at;
     updated_at;
+    personId;
     person;
+    organizationId;
     organization;
 };
 exports.Actor = Actor;
@@ -53,10 +55,18 @@ __decorate([
     __metadata("design:type", Date)
 ], Actor.prototype, "updated_at", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Number)
+], Actor.prototype, "personId", void 0);
+__decorate([
     (0, typeorm_1.OneToOne)(() => person_entity_1.Person, { nullable: true, onDelete: 'SET NULL', onUpdate: 'CASCADE' }),
     (0, typeorm_1.JoinColumn)({ name: 'personId' }),
     __metadata("design:type", person_entity_1.Person)
 ], Actor.prototype, "person", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Number)
+], Actor.prototype, "organizationId", void 0);
 __decorate([
     (0, typeorm_1.OneToOne)(() => organization_entity_1.Organization, { nullable: true, onDelete: 'SET NULL', onUpdate: 'CASCADE' }),
     (0, typeorm_1.JoinColumn)({ name: 'organizationId' }),

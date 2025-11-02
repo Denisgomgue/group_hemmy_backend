@@ -27,7 +27,9 @@ let Installation = class Installation {
     status;
     created_at;
     updated_at;
+    clientId;
     client;
+    sectorId;
     sector;
 };
 exports.Installation = Installation;
@@ -68,10 +70,18 @@ __decorate([
     __metadata("design:type", Date)
 ], Installation.prototype, "updated_at", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Number)
+], Installation.prototype, "clientId", void 0);
+__decorate([
     (0, typeorm_1.ManyToOne)(() => client_entity_1.Client),
     (0, typeorm_1.JoinColumn)({ name: 'clientId' }),
     __metadata("design:type", client_entity_1.Client)
 ], Installation.prototype, "client", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Number)
+], Installation.prototype, "sectorId", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => sector_entity_1.Sector),
     (0, typeorm_1.JoinColumn)({ name: 'sectorId' }),

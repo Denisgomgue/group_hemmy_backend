@@ -54,6 +54,20 @@ export class InstallationController {
     }),
   )
   async uploadImage(@Param('id') id: string, @UploadedFile() file: Express.Multer.File) {
+    // Obtener la instalación actual para eliminar la imagen anterior si existe
+    const currentInstallation = await this.installationService.findOne(+id);
+    if (currentInstallation?.imagePath) {
+      const oldImagePath = join(process.cwd(), currentInstallation.imagePath);
+      // Eliminar la imagen anterior si existe
+      if (fs.existsSync(oldImagePath)) {
+        try {
+          fs.unlinkSync(oldImagePath);
+        } catch (error) {
+          console.error('Error al eliminar imagen anterior:', error);
+        }
+      }
+    }
+
     // Crear directorio si no existe
     const uploadDir = join(process.cwd(), 'uploads', 'installations');
     if (!fs.existsSync(uploadDir)) {

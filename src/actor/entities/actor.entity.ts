@@ -28,9 +28,15 @@ export class Actor {
     @UpdateDateColumn({ default: () => "CURRENT_TIMESTAMP", onUpdate: "CURRENT_TIMESTAMP" })
     public updated_at: Date;
 
+    @Column({ nullable: true })
+    personId: number;
+
     @OneToOne(() => Person, { nullable: true, onDelete: 'SET NULL', onUpdate: 'CASCADE' })
     @JoinColumn({ name: 'personId' })
     person: Person;
+
+    @Column({ nullable: true })
+    organizationId: number;
 
     @OneToOne(() => Organization, { nullable: true, onDelete: 'SET NULL', onUpdate: 'CASCADE' })
     @JoinColumn({ name: 'organizationId' })

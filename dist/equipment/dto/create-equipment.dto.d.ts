@@ -7,8 +7,8 @@ export declare class CreateEquipmentDto {
     status?: EquipmentStatus;
     assignedDate?: string;
     useType?: EquipmentUseType;
-    assignedInstallationId?: number;
-    assignedEmployeeId?: number;
+    installationId?: number;
+    employeeId?: number;
     categoryId?: number;
     notes?: string;
 }

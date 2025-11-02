@@ -45,6 +45,18 @@ let InstallationController = class InstallationController {
         return this.installationService.remove(+id);
     }
     async uploadImage(id, file) {
+        const currentInstallation = await this.installationService.findOne(+id);
+        if (currentInstallation?.imagePath) {
+            const oldImagePath = (0, path_1.join)(process.cwd(), currentInstallation.imagePath);
+            if (fs.existsSync(oldImagePath)) {
+                try {
+                    fs.unlinkSync(oldImagePath);
+                }
+                catch (error) {
+                    console.error('Error al eliminar imagen anterior:', error);
+                }
+            }
+        }
         const uploadDir = (0, path_1.join)(process.cwd(), 'uploads', 'installations');
         if (!fs.existsSync(uploadDir)) {
             fs.mkdirSync(uploadDir, { recursive: true });

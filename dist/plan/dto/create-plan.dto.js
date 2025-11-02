@@ -16,6 +16,7 @@ class CreatePlanDto {
     name;
     price;
     speedMbps;
+    type;
     description;
     isActive;
 }
@@ -38,6 +39,11 @@ __decorate([
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
 ], CreatePlanDto.prototype, "speedMbps", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], CreatePlanDto.prototype, "type", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),

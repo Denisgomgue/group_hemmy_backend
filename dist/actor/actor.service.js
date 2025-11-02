@@ -23,8 +23,26 @@ let ActorService = class ActorService {
         this.actorRepository = actorRepository;
     }
     async create(createActorDto) {
-        const actor = this.actorRepository.create(createActorDto);
-        return await this.actorRepository.save(actor);
+        const actorData = {
+            kind: createActorDto.kind,
+            displayName: createActorDto.displayName,
+        };
+        if (createActorDto.personId) {
+            actorData.personId = createActorDto.personId;
+        }
+        if (createActorDto.organizationId) {
+            actorData.organizationId = createActorDto.organizationId;
+        }
+        const insertResult = await this.actorRepository.insert(actorData);
+        const actorId = insertResult.identifiers[0].id;
+        const savedActor = await this.actorRepository.findOne({
+            where: { id: actorId },
+            relations: ['person', 'organization'],
+        });
+        if (!savedActor) {
+            throw new Error('Error al crear el actor');
+        }
+        return savedActor;
     }
     async findAll() {
         return await this.actorRepository.find({

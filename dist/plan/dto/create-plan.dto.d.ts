@@ -3,6 +3,7 @@ export declare class CreatePlanDto {
     name: string;
     price: number;
     speedMbps?: number;
+    type?: boolean;
     description?: string;
     isActive?: boolean;
 }

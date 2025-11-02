@@ -27,13 +27,26 @@ let InstallationService = class InstallationService {
     }
     async findAll() {
         return await this.installationRepository.find({
-            relations: ['client', 'sector'],
+            relations: [
+                'client',
+                'client.actor',
+                'client.actor.person',
+                'client.actor.organization',
+                'sector'
+            ],
+            order: { created_at: 'DESC' },
         });
     }
     async findOne(id) {
         return await this.installationRepository.findOne({
             where: { id },
-            relations: ['client', 'sector'],
+            relations: [
+                'client',
+                'client.actor',
+                'client.actor.person',
+                'client.actor.organization',
+                'sector'
+            ],
         });
     }
     async update(id, updateInstallationDto) {

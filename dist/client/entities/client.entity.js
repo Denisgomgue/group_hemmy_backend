@@ -23,6 +23,7 @@ let Client = class Client {
     status;
     created_at;
     updated_at;
+    actorId;
     actor;
 };
 exports.Client = Client;
@@ -46,6 +47,10 @@ __decorate([
     (0, typeorm_1.UpdateDateColumn)({ default: () => "CURRENT_TIMESTAMP", onUpdate: "CURRENT_TIMESTAMP" }),
     __metadata("design:type", Date)
 ], Client.prototype, "updated_at", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Number)
+], Client.prototype, "actorId", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => actor_entity_1.Actor),
     (0, typeorm_1.JoinColumn)({ name: 'actorId' }),

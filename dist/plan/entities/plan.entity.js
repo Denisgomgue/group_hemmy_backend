@@ -19,6 +19,8 @@ let Plan = class Plan {
     speedMbps;
     description;
     isActive;
+    type;
+    serviceId;
     created_at;
     updated_at;
     service;
@@ -48,6 +50,14 @@ __decorate([
     (0, typeorm_1.Column)({ default: true }),
     __metadata("design:type", Boolean)
 ], Plan.prototype, "isActive", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true, default: false }),
+    __metadata("design:type", Boolean)
+], Plan.prototype, "type", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Number)
+], Plan.prototype, "serviceId", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)({ default: () => "CURRENT_TIMESTAMP" }),
     __metadata("design:type", Date)

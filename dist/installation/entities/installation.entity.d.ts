@@ -13,6 +13,8 @@ export declare class Installation {
     status: InstallationStatus;
     created_at: Date;
     updated_at: Date;
+    clientId: number;
     client: Client;
+    sectorId: number;
     sector: Sector;
 }

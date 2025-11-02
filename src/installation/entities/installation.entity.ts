@@ -37,9 +37,15 @@ export class Installation {
     @UpdateDateColumn({ default: () => "CURRENT_TIMESTAMP", onUpdate: "CURRENT_TIMESTAMP" })
     public updated_at: Date;
 
+    @Column({ nullable: true })
+    clientId: number;
+
     @ManyToOne(() => Client)
     @JoinColumn({ name: 'clientId' })
     client: Client;
+
+    @Column({ nullable: true })
+    sectorId: number;
 
     @ManyToOne(() => Sector)
     @JoinColumn({ name: 'sectorId' })

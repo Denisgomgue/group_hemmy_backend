@@ -4,9 +4,9 @@ import { UpdateEmployeeDto } from './dto/update-employee.dto';
 export declare class EmployeeController {
     private readonly employeeService;
     constructor(employeeService: EmployeeService);
-    create(createEmployeeDto: CreateEmployeeDto): string;
-    findAll(): string;
-    findOne(id: string): string;
-    update(id: string, updateEmployeeDto: UpdateEmployeeDto): string;
-    remove(id: string): string;
+    create(createEmployeeDto: CreateEmployeeDto): Promise<import("./entities/employee.entity").Employee>;
+    findAll(): Promise<import("./entities/employee.entity").Employee[]>;
+    findOne(id: string): Promise<import("./entities/employee.entity").Employee | null>;
+    update(id: string, updateEmployeeDto: UpdateEmployeeDto): Promise<import("./entities/employee.entity").Employee | null>;
+    remove(id: string): Promise<void>;
 }

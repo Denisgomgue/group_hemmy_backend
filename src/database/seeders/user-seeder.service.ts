@@ -8,6 +8,10 @@ import { SEEDER_CONFIG } from './resource.seeder';
 import { DocumentType, Person } from '../../person/entities/person.entity';
 import { ActorKind, Actor } from '../../actor/entities/actor.entity';
 import { User } from '../../users/entities/user.entity';
+import { Role } from '../../role/entities/role.entity';
+import { Permission } from '../../permission/entities/permission.entity';
+import { RolePermission } from '../../role-permission/entities/role-permission.entity';
+import { UserRole } from '../../user-role/entities/user-role.entity';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -19,70 +23,121 @@ export class UserSeederService {
         private actorRepository: Repository<Actor>,
         @InjectRepository(User)
         private userRepository: Repository<User>,
+        @InjectRepository(Role)
+        private roleRepository: Repository<Role>,
+        @InjectRepository(Permission)
+        private permissionRepository: Repository<Permission>,
+        @InjectRepository(RolePermission)
+        private rolePermissionRepository: Repository<RolePermission>,
+        @InjectRepository(UserRole)
+        private userRoleRepository: Repository<UserRole>,
     ) { }
 
     async seedAdminUser() {
-        console.log('👤 Seeding usuario administrador...');
+        console.log('👤 Seeding usuarios con roles y permisos...');
 
         try {
-            // Verificar si ya existe un usuario admin buscando en la base de datos
-            let adminExists = false;
-            try {
-                const existingUsers = await this.userRepository.find({ take: 1 });
-                adminExists = existingUsers.length > 0;
-            } catch (error) {
-                // Si no hay usuarios, continuamos
-            }
-
-            if (adminExists) {
-                console.log('  ⏭️  Usuario administrador ya existe');
+            // Verificar si ya existen usuarios
+            const existingUsers = await this.userRepository.count();
+            if (existingUsers > 0) {
+                console.log('  ⏭️  Ya existen usuarios en la base de datos');
                 return;
             }
 
-            // Datos de la persona desde configuración
-            const personData = {
-                documentType: DocumentType.DNI,
-                documentNumber: '00000000',
-                firstName: SEEDER_CONFIG.adminUser.firstName,
-                lastName: SEEDER_CONFIG.adminUser.lastName,
-                email: SEEDER_CONFIG.adminUser.email,
-                phone: SEEDER_CONFIG.adminUser.phone,
-                birthdate: new Date(SEEDER_CONFIG.adminUser.birthdate),
-            };
+            // Primero crear los roles
+            console.log('\n📋 Creando roles...');
+            const rolesMap = new Map<string, Role>();
+            for (const roleData of SEEDER_CONFIG.roles) {
+                const role = this.roleRepository.create(roleData);
+                const savedRole = await this.roleRepository.save(role);
+                rolesMap.set(roleData.code, savedRole);
+                console.log(`  ✅ Rol creado: ${savedRole.name} (${savedRole.code})`);
+            }
 
-            // 1️⃣ Crear Persona directamente en la BD
-            const person = this.personRepository.create(personData);
-            const savedPerson = await this.personRepository.save(person);
-            console.log(`  ✅ Persona creada: ${savedPerson.firstName} ${savedPerson.lastName} (ID: ${savedPerson.id})`);
+            // Crear los permisos
+            console.log('\n🔐 Creando permisos...');
+            const permissionsMap = new Map<string, Permission>();
+            for (const permData of SEEDER_CONFIG.permissions) {
+                const perm = this.permissionRepository.create(permData);
+                const savedPerm = await this.permissionRepository.save(perm);
+                permissionsMap.set(permData.code, savedPerm);
+            }
+            console.log(`  ✅ ${permissionsMap.size} permisos creados`);
 
-            // 2️⃣ Crear Actor vinculado a la Persona
-            const actorData = {
-                kind: ActorKind.PERSON,
-                displayName: `${SEEDER_CONFIG.adminUser.firstName} ${SEEDER_CONFIG.adminUser.lastName}`,
-                person: savedPerson,
-            };
-            const actor = this.actorRepository.create(actorData);
-            const savedActor = await this.actorRepository.save(actor);
-            console.log(`  ✅ Actor creado: ${savedActor.displayName} (ID: ${savedActor.id})`);
+            // Asignar permisos a roles
+            console.log('\n🔗 Asignando permisos a roles...');
+            for (const rolePermData of SEEDER_CONFIG.rolePermissions) {
+                const role = rolesMap.get(rolePermData.roleCode);
+                if (!role) continue;
 
-            // 3️⃣ Crear Usuario vinculado al Actor
-            const passwordHash = await bcrypt.hash(SEEDER_CONFIG.adminUser.password, 10);
-            const userData = {
-                actor: savedActor,
-                passwordHash: passwordHash,
-                isActive: true,
-            };
-            const user = this.userRepository.create(userData);
-            const savedUser = await this.userRepository.save(user);
-            console.log(`  ✅ Usuario administrador creado (ID: ${savedUser.id})`);
-            console.log(`  📧 Email: ${SEEDER_CONFIG.adminUser.email}`);
-            console.log(`  🔑 Password: ${SEEDER_CONFIG.adminUser.password}`);
-            console.log(`  🔗 Persona → Actor → Usuario vinculados correctamente`);
+                for (const permCode of rolePermData.permissions) {
+                    if (permCode === '*') {
+                        // Para el permiso wildcard, asignamos todos los permisos
+                        for (const perm of permissionsMap.values()) {
+                            const rolePerm = this.rolePermissionRepository.create({ role, permission: perm });
+                            await this.rolePermissionRepository.save(rolePerm);
+                        }
+                        console.log(`  ✅ Todos los permisos asignados al rol ${role.name}`);
+                    } else {
+                        const perm = permissionsMap.get(permCode);
+                        if (perm) {
+                            const rolePerm = this.rolePermissionRepository.create({ role, permission: perm });
+                            await this.rolePermissionRepository.save(rolePerm);
+                        }
+                    }
+                }
+            }
+
+            // Crear los usuarios
+            console.log('\n👥 Creando usuarios...');
+            for (const userConfig of SEEDER_CONFIG.users) {
+                // 1️⃣ Crear Persona
+                const person = this.personRepository.create({
+                    documentType: DocumentType.DNI,
+                    documentNumber: `9999999${Math.floor(Math.random() * 9)}`,
+                    firstName: userConfig.firstName,
+                    lastName: userConfig.lastName,
+                    email: userConfig.email,
+                    phone: userConfig.phone,
+                    birthdate: new Date(userConfig.birthdate),
+                });
+                const savedPerson = await this.personRepository.save(person);
+
+                // 2️⃣ Crear Actor
+                const actor = this.actorRepository.create({
+                    kind: ActorKind.PERSON,
+                    displayName: userConfig.displayName,
+                    person: savedPerson,
+                });
+                const savedActor = await this.actorRepository.save(actor);
+
+                // 3️⃣ Crear Usuario
+                const passwordHash = await bcrypt.hash(userConfig.password, 10);
+                const user = this.userRepository.create({
+                    actor: savedActor,
+                    passwordHash,
+                    isActive: true,
+                });
+                const savedUser = await this.userRepository.save(user);
+
+                // 4️⃣ Asignar Rol al Usuario
+                const role = rolesMap.get(userConfig.role);
+                if (role) {
+                    const userRole = this.userRoleRepository.create({
+                        user: savedUser,
+                        role,
+                        assignedAt: new Date(),
+                    });
+                    await this.userRoleRepository.save(userRole);
+                }
+
+                console.log(`  ✅ Usuario: ${userConfig.email} (${userConfig.role})`);
+            }
+
+            console.log('\n✅ Todos los usuarios creados exitosamente con sus roles y permisos!');
         } catch (error) {
-            console.error(
-                '  ❌ Error creando usuario administrador:',
-                error.message,
-            );
+            console.error('  ❌ Error creando usuarios:', error.message);
+            console.error(error.stack);
         }
     }
 }

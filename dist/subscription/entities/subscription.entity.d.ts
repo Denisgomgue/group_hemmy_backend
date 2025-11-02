@@ -15,6 +15,8 @@ export declare class Subscription {
     advancePayment: boolean;
     created_at: Date;
     updated_at: Date;
+    installationId: number;
     installation: Installation;
+    planId: number;
     plan: Plan;
 }

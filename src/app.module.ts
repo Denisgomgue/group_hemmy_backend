@@ -17,6 +17,7 @@ import { UsersModule } from './users/users.module';
 import { RoleModule } from './role/role.module';
 import { PermissionModule } from './permission/permission.module';
 import { RolePermissionModule } from './role-permission/role-permission.module';
+import { ResourceModule } from './resource/resource.module';
 import { UserRoleModule } from './user-role/user-role.module';
 import { UserPermissionModule } from './user-permission/user-permission.module';
 import { SectorModule } from './sector/sector.module';
@@ -48,6 +49,7 @@ import { Client } from './client/entities/client.entity';
 import { Role } from './role/entities/role.entity';
 import { Permission } from './permission/entities/permission.entity';
 import { RolePermission } from './role-permission/entities/role-permission.entity';
+import { Resource } from './resource/entities/resource.entity';
 import { UserRole } from './user-role/entities/user-role.entity';
 import { UserPermission } from './user-permission/entities/user-permission.entity';
 import { Sector } from './sector/entities/sector.entity';
@@ -98,6 +100,7 @@ import { EquipmentHistory } from './equipment-history/entities/equipment-history
         UserRole,
         RolePermission,
         UserPermission,
+        Resource,
 
         // Sector & Installation Entities
         Sector,
@@ -147,6 +150,7 @@ import { EquipmentHistory } from './equipment-history/entities/equipment-history
     RolePermissionModule,
     UserRoleModule,
     UserPermissionModule,
+    ResourceModule,
     SectorModule,
     InstallationModule,
     AddressModule,

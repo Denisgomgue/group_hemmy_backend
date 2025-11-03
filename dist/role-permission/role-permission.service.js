@@ -49,6 +49,7 @@ let RolePermissionService = class RolePermissionService {
                 role: { id: role.id },
                 permission: { id: permission.id },
             },
+            relations: ['role', 'permission'],
         });
         if (existing) {
             throw new common_1.ForbiddenException(`El permiso "${permission.name}" ya está asignado al rol "${role.name}"`);
@@ -57,13 +58,62 @@ let RolePermissionService = class RolePermissionService {
             role,
             permission,
         });
-        return this.rolePermissionRepository.save(rolePermission);
+        const saved = await this.rolePermissionRepository.save(rolePermission);
+        const result = await this.rolePermissionRepository.findOne({
+            where: { id: saved.id },
+            relations: ['role', 'permission'],
+        });
+        if (!result) {
+            throw new common_1.NotFoundException(`Error al crear RolePermission`);
+        }
+        return {
+            ...result,
+            roleId: result.role?.id || result.roleId,
+            permissionId: result.permission?.id || result.permissionId,
+        };
     }
-    async findAll() {
-        return this.rolePermissionRepository.find({
+    async findAll(roleId, permissionId) {
+        const where = {};
+        if (roleId) {
+            where.role = { id: roleId };
+        }
+        if (permissionId) {
+            where.permission = { id: permissionId };
+        }
+        const results = await this.rolePermissionRepository.find({
+            where,
             relations: ['role', 'permission'],
             order: { created_at: 'DESC' },
         });
+        return results.map(rp => ({
+            ...rp,
+            roleId: rp.role?.id || rp.roleId,
+            permissionId: rp.permission?.id || rp.permissionId,
+        }));
+    }
+    async findByRoleId(roleId) {
+        const results = await this.rolePermissionRepository.find({
+            where: { role: { id: roleId } },
+            relations: ['role', 'permission'],
+            order: { created_at: 'DESC' },
+        });
+        return results.map(rp => ({
+            ...rp,
+            roleId: rp.role?.id || rp.roleId,
+            permissionId: rp.permission?.id || rp.permissionId,
+        }));
+    }
+    async findByPermissionId(permissionId) {
+        const results = await this.rolePermissionRepository.find({
+            where: { permission: { id: permissionId } },
+            relations: ['role', 'permission'],
+            order: { created_at: 'DESC' },
+        });
+        return results.map(rp => ({
+            ...rp,
+            roleId: rp.role?.id || rp.roleId,
+            permissionId: rp.permission?.id || rp.permissionId,
+        }));
     }
     async findOne(id) {
         const rolePermission = await this.rolePermissionRepository.findOne({
@@ -73,7 +123,11 @@ let RolePermissionService = class RolePermissionService {
         if (!rolePermission) {
             throw new common_1.NotFoundException(`RolePermission con ID ${id} no encontrado`);
         }
-        return rolePermission;
+        return {
+            ...rolePermission,
+            roleId: rolePermission.role?.id || rolePermission.roleId,
+            permissionId: rolePermission.permission?.id || rolePermission.permissionId,
+        };
     }
     async update(id, updateRolePermissionDto) {
         const rolePermission = await this.rolePermissionRepository.findOne({

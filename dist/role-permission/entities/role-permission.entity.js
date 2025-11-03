@@ -29,12 +29,12 @@ __decorate([
     __metadata("design:type", Date)
 ], RolePermission.prototype, "created_at", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => role_entity_1.Role, { nullable: true, onDelete: 'SET NULL', onUpdate: 'CASCADE' }),
+    (0, typeorm_1.ManyToOne)(() => role_entity_1.Role, { nullable: false, onDelete: 'CASCADE', onUpdate: 'CASCADE', eager: false }),
     (0, typeorm_1.JoinColumn)({ name: 'roleId' }),
     __metadata("design:type", role_entity_1.Role)
 ], RolePermission.prototype, "role", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => permission_entity_1.Permission, { nullable: true, onDelete: 'SET NULL', onUpdate: 'CASCADE' }),
+    (0, typeorm_1.ManyToOne)(() => permission_entity_1.Permission, { nullable: false, onDelete: 'CASCADE', onUpdate: 'CASCADE', eager: false }),
     (0, typeorm_1.JoinColumn)({ name: 'permissionId' }),
     __metadata("design:type", permission_entity_1.Permission)
 ], RolePermission.prototype, "permission", void 0);

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query } from '@nestjs/common';
 import { RolePermissionService } from './role-permission.service';
 import { CreateRolePermissionDto } from './dto/create-role-permission.dto';
 import { UpdateRolePermissionDto } from './dto/update-role-permission.dto';
@@ -18,8 +18,10 @@ export class RolePermissionController {
   }
 
   @Get()
-  findAll() {
-    return this.rolePermissionService.findAll();
+  findAll(@Query('roleId') roleId?: string, @Query('permissionId') permissionId?: string) {
+    const roleIdNum = roleId ? parseInt(roleId, 10) : undefined;
+    const permissionIdNum = permissionId ? parseInt(permissionId, 10) : undefined;
+    return this.rolePermissionService.findAll(roleIdNum, permissionIdNum);
   }
 
   @Get(':id')

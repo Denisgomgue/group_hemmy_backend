@@ -4,9 +4,9 @@ import { UpdatePermissionDto } from './dto/update-permission.dto';
 export declare class PermissionController {
     private readonly permissionService;
     constructor(permissionService: PermissionService);
-    create(createPermissionDto: CreatePermissionDto): string;
-    findAll(): string;
-    findOne(id: string): string;
-    update(id: string, updatePermissionDto: UpdatePermissionDto): string;
-    remove(id: string): string;
+    create(createPermissionDto: CreatePermissionDto): Promise<import("./entities/permission.entity").Permission>;
+    findAll(): Promise<import("./entities/permission.entity").Permission[]>;
+    findOne(id: string): Promise<import("./entities/permission.entity").Permission>;
+    update(id: string, updatePermissionDto: UpdatePermissionDto): Promise<import("./entities/permission.entity").Permission>;
+    remove(id: string): Promise<void>;
 }

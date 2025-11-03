@@ -26,6 +26,7 @@ const users_module_1 = require("./users/users.module");
 const role_module_1 = require("./role/role.module");
 const permission_module_1 = require("./permission/permission.module");
 const role_permission_module_1 = require("./role-permission/role-permission.module");
+const resource_module_1 = require("./resource/resource.module");
 const user_role_module_1 = require("./user-role/user-role.module");
 const user_permission_module_1 = require("./user-permission/user-permission.module");
 const sector_module_1 = require("./sector/sector.module");
@@ -57,6 +58,7 @@ const client_entity_1 = require("./client/entities/client.entity");
 const role_entity_1 = require("./role/entities/role.entity");
 const permission_entity_1 = require("./permission/entities/permission.entity");
 const role_permission_entity_1 = require("./role-permission/entities/role-permission.entity");
+const resource_entity_1 = require("./resource/entities/resource.entity");
 const user_role_entity_1 = require("./user-role/entities/user-role.entity");
 const user_permission_entity_1 = require("./user-permission/entities/user-permission.entity");
 const sector_entity_1 = require("./sector/entities/sector.entity");
@@ -105,6 +107,7 @@ exports.AppModule = AppModule = __decorate([
                     user_role_entity_1.UserRole,
                     role_permission_entity_1.RolePermission,
                     user_permission_entity_1.UserPermission,
+                    resource_entity_1.Resource,
                     sector_entity_1.Sector,
                     installation_entity_1.Installation,
                     installation_equipment_entity_1.InstallationEquipment,
@@ -142,6 +145,7 @@ exports.AppModule = AppModule = __decorate([
             role_permission_module_1.RolePermissionModule,
             user_role_module_1.UserRoleModule,
             user_permission_module_1.UserPermissionModule,
+            resource_module_1.ResourceModule,
             sector_module_1.SectorModule,
             installation_module_1.InstallationModule,
             address_module_1.AddressModule,

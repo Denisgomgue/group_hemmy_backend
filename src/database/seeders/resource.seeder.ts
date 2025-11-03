@@ -1,9 +1,23 @@
 /**
- * Archivo de configuración de recursos para seeders
+ * Archivo de configuración de recursos y permisos para seeders
  * Define los datos iniciales que se cargarán en la base de datos
  */
 
 export const SEEDER_CONFIG = {
+    // Recursos del sistema (módulos/entidades)
+    resources: [
+        { routeCode: 'users', name: 'Usuarios', description: 'Gestión de usuarios del sistema', isActive: true, orderIndex: 1 },
+        { routeCode: 'roles', name: 'Roles', description: 'Gestión de roles del sistema', isActive: true, orderIndex: 2 },
+        { routeCode: 'permissions', name: 'Permisos', description: 'Gestión de permisos del sistema', isActive: true, orderIndex: 3 },
+        { routeCode: 'equipment', name: 'Equipos', description: 'Gestión de equipos e inventario', isActive: true, orderIndex: 4 },
+        { routeCode: 'installations', name: 'Instalaciones', description: 'Gestión de instalaciones de clientes', isActive: true, orderIndex: 5 },
+        { routeCode: 'clients', name: 'Clientes', description: 'Gestión de clientes', isActive: true, orderIndex: 6 },
+        { routeCode: 'payments', name: 'Pagos', description: 'Gestión de pagos y facturación', isActive: true, orderIndex: 7 },
+        { routeCode: 'tickets', name: 'Tickets', description: 'Gestión de tickets y soporte', isActive: true, orderIndex: 8 },
+        { routeCode: 'reports', name: 'Reportes', description: 'Visualización de reportes', isActive: true, orderIndex: 9 },
+        { routeCode: 'config', name: 'Configuración', description: 'Configuración del sistema', isActive: true, orderIndex: 10 },
+    ],
+
     // Categorías de equipamiento
     equipmentCategories: [
         { code: 'ROUTER', name: 'Router WiFi', description: 'Router inalámbrico para conexión WiFi' },
@@ -72,75 +86,80 @@ export const SEEDER_CONFIG = {
             code: 'ADMINISTRADOR',
             name: 'Administrador',
             description: 'Administrador del sistema con permisos amplios',
-            isSystem: false, // Puede ser editado/eliminado
+            isSystem: false,
         },
         {
             code: 'TECNICO',
             name: 'Técnico',
             description: 'Técnico de campo para instalaciones y mantenimiento',
-            isSystem: false, // Puede ser editado/eliminado
+            isSystem: false,
         },
         {
             code: 'SECRETARIA',
             name: 'Secretaria',
             description: 'Secretaria administrativa para gestiones básicas',
-            isSystem: false, // Puede ser editado/eliminado
+            isSystem: false,
         },
     ],
 
-    // Permisos por defecto
+    // Permisos por defecto - Ahora vinculados a recursos
+    // Los permisos se generan automáticamente por recurso con formato: resourceCode:action
     permissions: [
-        // Usuarios
-        { code: 'users:read', name: 'Ver Usuarios', description: 'Permiso para ver usuarios' },
-        { code: 'users:create', name: 'Crear Usuarios', description: 'Permiso para crear usuarios' },
-        { code: 'users:update', name: 'Actualizar Usuarios', description: 'Permiso para actualizar usuarios' },
-        { code: 'users:delete', name: 'Eliminar Usuarios', description: 'Permiso para eliminar usuarios' },
+        // Permisos de Usuarios (vinculados al recurso 'users')
+        { code: 'users:read', name: 'Ver Usuarios', description: 'Permiso para ver usuarios', resourceRouteCode: 'users' },
+        { code: 'users:create', name: 'Crear Usuarios', description: 'Permiso para crear usuarios', resourceRouteCode: 'users' },
+        { code: 'users:update', name: 'Actualizar Usuarios', description: 'Permiso para actualizar usuarios', resourceRouteCode: 'users' },
+        { code: 'users:delete', name: 'Eliminar Usuarios', description: 'Permiso para eliminar usuarios', resourceRouteCode: 'users' },
 
-        // Roles
-        { code: 'roles:read', name: 'Ver Roles', description: 'Permiso para ver roles' },
-        { code: 'roles:create', name: 'Crear Roles', description: 'Permiso para crear roles' },
-        { code: 'roles:update', name: 'Actualizar Roles', description: 'Permiso para actualizar roles' },
-        { code: 'roles:delete', name: 'Eliminar Roles', description: 'Permiso para eliminar roles' },
+        // Permisos de Roles (vinculados al recurso 'roles')
+        { code: 'roles:read', name: 'Ver Roles', description: 'Permiso para ver roles', resourceRouteCode: 'roles' },
+        { code: 'roles:create', name: 'Crear Roles', description: 'Permiso para crear roles', resourceRouteCode: 'roles' },
+        { code: 'roles:update', name: 'Actualizar Roles', description: 'Permiso para actualizar roles', resourceRouteCode: 'roles' },
+        { code: 'roles:delete', name: 'Eliminar Roles', description: 'Permiso para eliminar roles', resourceRouteCode: 'roles' },
+        { code: 'roles:manage', name: 'Gestionar Roles y Permisos', description: 'Permiso para crear, modificar y eliminar roles y permisos. Solo para superadministradores.', resourceRouteCode: 'roles' },
 
-        // Equipos
-        { code: 'equipment:read', name: 'Ver Equipos', description: 'Permiso para ver equipos' },
-        { code: 'equipment:create', name: 'Crear Equipos', description: 'Permiso para crear equipos' },
-        { code: 'equipment:update', name: 'Actualizar Equipos', description: 'Permiso para actualizar equipos' },
-        { code: 'equipment:delete', name: 'Eliminar Equipos', description: 'Permiso para eliminar equipos' },
+        // Permisos de Permisos (vinculados al recurso 'permissions')
+        { code: 'permissions:read', name: 'Ver Permisos', description: 'Permiso para ver permisos', resourceRouteCode: 'permissions' },
+        { code: 'permissions:create', name: 'Crear Permisos', description: 'Permiso para crear permisos', resourceRouteCode: 'permissions' },
+        { code: 'permissions:update', name: 'Actualizar Permisos', description: 'Permiso para actualizar permisos', resourceRouteCode: 'permissions' },
+        { code: 'permissions:delete', name: 'Eliminar Permisos', description: 'Permiso para eliminar permisos', resourceRouteCode: 'permissions' },
 
-        // Instalaciones
-        { code: 'installations:read', name: 'Ver Instalaciones', description: 'Permiso para ver instalaciones' },
-        { code: 'installations:create', name: 'Crear Instalaciones', description: 'Permiso para crear instalaciones' },
-        { code: 'installations:update', name: 'Actualizar Instalaciones', description: 'Permiso para actualizar instalaciones' },
-        { code: 'installations:delete', name: 'Eliminar Instalaciones', description: 'Permiso para eliminar instalaciones' },
+        // Permisos de Equipos (vinculados al recurso 'equipment')
+        { code: 'equipment:read', name: 'Ver Equipos', description: 'Permiso para ver equipos', resourceRouteCode: 'equipment' },
+        { code: 'equipment:create', name: 'Crear Equipos', description: 'Permiso para crear equipos', resourceRouteCode: 'equipment' },
+        { code: 'equipment:update', name: 'Actualizar Equipos', description: 'Permiso para actualizar equipos', resourceRouteCode: 'equipment' },
+        { code: 'equipment:delete', name: 'Eliminar Equipos', description: 'Permiso para eliminar equipos', resourceRouteCode: 'equipment' },
 
-        // Pagos
-        { code: 'payments:read', name: 'Ver Pagos', description: 'Permiso para ver pagos' },
-        { code: 'payments:create', name: 'Crear Pagos', description: 'Permiso para crear pagos' },
-        { code: 'payments:update', name: 'Actualizar Pagos', description: 'Permiso para actualizar pagos' },
+        // Permisos de Instalaciones (vinculados al recurso 'installations')
+        { code: 'installations:read', name: 'Ver Instalaciones', description: 'Permiso para ver instalaciones', resourceRouteCode: 'installations' },
+        { code: 'installations:create', name: 'Crear Instalaciones', description: 'Permiso para crear instalaciones', resourceRouteCode: 'installations' },
+        { code: 'installations:update', name: 'Actualizar Instalaciones', description: 'Permiso para actualizar instalaciones', resourceRouteCode: 'installations' },
+        { code: 'installations:delete', name: 'Eliminar Instalaciones', description: 'Permiso para eliminar instalaciones', resourceRouteCode: 'installations' },
 
-        // Tickets
-        { code: 'tickets:read', name: 'Ver Tickets', description: 'Permiso para ver tickets' },
-        { code: 'tickets:create', name: 'Crear Tickets', description: 'Permiso para crear tickets' },
-        { code: 'tickets:update', name: 'Actualizar Tickets', description: 'Permiso para actualizar tickets' },
+        // Permisos de Clientes (vinculados al recurso 'clients')
+        { code: 'clients:read', name: 'Ver Clientes', description: 'Permiso para ver clientes', resourceRouteCode: 'clients' },
+        { code: 'clients:create', name: 'Crear Clientes', description: 'Permiso para crear clientes', resourceRouteCode: 'clients' },
+        { code: 'clients:update', name: 'Actualizar Clientes', description: 'Permiso para actualizar clientes', resourceRouteCode: 'clients' },
 
-        // Clientes
-        { code: 'clients:read', name: 'Ver Clientes', description: 'Permiso para ver clientes' },
-        { code: 'clients:create', name: 'Crear Clientes', description: 'Permiso para crear clientes' },
-        { code: 'clients:update', name: 'Actualizar Clientes', description: 'Permiso para actualizar clientes' },
+        // Permisos de Pagos (vinculados al recurso 'payments')
+        { code: 'payments:read', name: 'Ver Pagos', description: 'Permiso para ver pagos', resourceRouteCode: 'payments' },
+        { code: 'payments:create', name: 'Crear Pagos', description: 'Permiso para crear pagos', resourceRouteCode: 'payments' },
+        { code: 'payments:update', name: 'Actualizar Pagos', description: 'Permiso para actualizar pagos', resourceRouteCode: 'payments' },
 
-        // Reportes
-        { code: 'reports:read', name: 'Ver Reportes', description: 'Permiso para ver reportes' },
+        // Permisos de Tickets (vinculados al recurso 'tickets')
+        { code: 'tickets:read', name: 'Ver Tickets', description: 'Permiso para ver tickets', resourceRouteCode: 'tickets' },
+        { code: 'tickets:create', name: 'Crear Tickets', description: 'Permiso para crear tickets', resourceRouteCode: 'tickets' },
+        { code: 'tickets:update', name: 'Actualizar Tickets', description: 'Permiso para actualizar tickets', resourceRouteCode: 'tickets' },
 
-        // Configuración
-        { code: 'config:read', name: 'Ver Configuración', description: 'Permiso para ver configuración' },
-        { code: 'config:update', name: 'Actualizar Configuración', description: 'Permiso para actualizar configuración' },
+        // Permisos de Reportes (vinculados al recurso 'reports')
+        { code: 'reports:read', name: 'Ver Reportes', description: 'Permiso para ver reportes', resourceRouteCode: 'reports' },
 
-        // Gestión de Roles y Permisos (SOLO SUPERADMIN)
-        { code: 'roles:manage', name: 'Gestionar Roles y Permisos', description: 'Permiso para crear, modificar y eliminar roles y permisos. Solo para superadministradores.' },
+        // Permisos de Configuración (vinculados al recurso 'config')
+        { code: 'config:read', name: 'Ver Configuración', description: 'Permiso para ver configuración', resourceRouteCode: 'config' },
+        { code: 'config:update', name: 'Actualizar Configuración', description: 'Permiso para actualizar configuración', resourceRouteCode: 'config' },
 
-        // Permiso Wildcard (SOLO SUPERADMIN)
-        { code: '*', name: 'Todos los Permisos', description: 'Permiso wildcard que otorga acceso total al sistema. Solo para SUPERADMIN.' },
+        // Permiso Wildcard (NO vinculado a ningún recurso, es especial)
+        { code: '*', name: 'Todos los Permisos', description: 'Permiso wildcard que otorga acceso total al sistema. Solo para SUPERADMIN.', resourceRouteCode: null },
     ],
 
     // Asignación de permisos a roles
@@ -183,4 +202,3 @@ export const SEEDER_CONFIG = {
         },
     ],
 };
-

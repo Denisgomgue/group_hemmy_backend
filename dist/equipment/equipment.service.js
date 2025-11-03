@@ -28,14 +28,32 @@ let EquipmentService = class EquipmentService {
     }
     async findAll() {
         return await this.equipmentRepository.find({
-            relations: ['category', 'installation', 'employee'],
+            relations: [
+                'category',
+                'installation',
+                'installation.client',
+                'installation.client.actor',
+                'installation.client.actor.person',
+                'installation.client.actor.organization',
+                'employee',
+                'employee.person'
+            ],
             order: { created_at: 'DESC' },
         });
     }
     async findOne(id) {
         return await this.equipmentRepository.findOne({
             where: { id },
-            relations: ['category', 'installation', 'employee'],
+            relations: [
+                'category',
+                'installation',
+                'installation.client',
+                'installation.client.actor',
+                'installation.client.actor.person',
+                'installation.client.actor.organization',
+                'employee',
+                'employee.person'
+            ],
         });
     }
     async update(id, updateEquipmentDto) {

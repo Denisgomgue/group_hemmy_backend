@@ -28,8 +28,10 @@ let RolePermissionController = class RolePermissionController {
     create(createRolePermissionDto) {
         return this.rolePermissionService.create(createRolePermissionDto);
     }
-    findAll() {
-        return this.rolePermissionService.findAll();
+    findAll(roleId, permissionId) {
+        const roleIdNum = roleId ? parseInt(roleId, 10) : undefined;
+        const permissionIdNum = permissionId ? parseInt(permissionId, 10) : undefined;
+        return this.rolePermissionService.findAll(roleIdNum, permissionIdNum);
     }
     findOne(id) {
         return this.rolePermissionService.findOne(+id);
@@ -51,8 +53,10 @@ __decorate([
 ], RolePermissionController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
+    __param(0, (0, common_1.Query)('roleId')),
+    __param(1, (0, common_1.Query)('permissionId')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", void 0)
 ], RolePermissionController.prototype, "findAll", null);
 __decorate([

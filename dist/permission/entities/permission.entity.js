@@ -11,11 +11,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Permission = void 0;
 const typeorm_1 = require("typeorm");
+const resource_entity_1 = require("../../resource/entities/resource.entity");
 let Permission = class Permission {
     id;
     code;
     name;
     description;
+    resourceId;
+    resource;
     created_at;
     updated_at;
 };
@@ -36,6 +39,15 @@ __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], Permission.prototype, "description", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Number)
+], Permission.prototype, "resourceId", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => resource_entity_1.Resource, { nullable: true, onDelete: 'SET NULL', onUpdate: 'CASCADE' }),
+    (0, typeorm_1.JoinColumn)({ name: 'resourceId' }),
+    __metadata("design:type", resource_entity_1.Resource)
+], Permission.prototype, "resource", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)({ default: () => "CURRENT_TIMESTAMP" }),
     __metadata("design:type", Date)

@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Resource } from '../../resource/entities/resource.entity';
 
 @Entity()
 export class Permission {
@@ -13,6 +14,13 @@ export class Permission {
 
     @Column({ nullable: true })
     description: string;
+
+    @Column({ nullable: true })
+    resourceId: number;
+
+    @ManyToOne(() => Resource, { nullable: true, onDelete: 'SET NULL', onUpdate: 'CASCADE' })
+    @JoinColumn({ name: 'resourceId' })
+    resource: Resource;
 
     @CreateDateColumn({ default: () => "CURRENT_TIMESTAMP" })
     public created_at: Date;

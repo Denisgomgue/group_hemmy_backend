@@ -19,7 +19,16 @@ export class EquipmentService {
 
   async findAll(): Promise<Equipment[]> {
     return await this.equipmentRepository.find({
-      relations: [ 'category', 'installation', 'employee' ],
+      relations: [ 
+        'category', 
+        'installation', 
+        'installation.client',
+        'installation.client.actor',
+        'installation.client.actor.person',
+        'installation.client.actor.organization',
+        'employee',
+        'employee.person'
+      ],
       order: { created_at: 'DESC' },
     });
   }
@@ -27,7 +36,16 @@ export class EquipmentService {
   async findOne(id: number): Promise<Equipment | null> {
     return await this.equipmentRepository.findOne({
       where: { id },
-      relations: [ 'category', 'installation', 'employee' ],
+      relations: [ 
+        'category', 
+        'installation', 
+        'installation.client',
+        'installation.client.actor',
+        'installation.client.actor.person',
+        'installation.client.actor.organization',
+        'employee',
+        'employee.person'
+      ],
     });
   }
 

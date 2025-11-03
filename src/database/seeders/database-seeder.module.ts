@@ -11,6 +11,7 @@ import { Role } from '../../role/entities/role.entity';
 import { Permission } from '../../permission/entities/permission.entity';
 import { RolePermission } from '../../role-permission/entities/role-permission.entity';
 import { UserRole } from '../../user-role/entities/user-role.entity';
+import { Resource } from '../../resource/entities/resource.entity';
 
 @Module({
     imports: [
@@ -22,7 +23,8 @@ import { UserRole } from '../../user-role/entities/user-role.entity';
             Role,
             Permission,
             RolePermission,
-            UserRole
+            UserRole,
+            Resource
         ]),
     ],
     providers: [

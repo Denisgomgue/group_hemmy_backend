@@ -96,25 +96,37 @@ export class Ticket {
     })
     createdAsRole: CreatedAsRole;
 
+    @Column()
+    clientId: number;
+
+    @Column({ nullable: true })
+    installationId?: number;
+
+    @Column({ nullable: true })
+    employeeId?: number;
+
+    @Column()
+    createdByUserId: number;
+
     @CreateDateColumn({ default: () => "CURRENT_TIMESTAMP" })
     public created_at: Date;
 
     @UpdateDateColumn({ default: () => "CURRENT_TIMESTAMP", onUpdate: "CURRENT_TIMESTAMP" })
     public updated_at: Date;
 
-    @ManyToOne(() => Client)
+    @ManyToOne(() => Client, { nullable: false, onDelete: 'CASCADE', onUpdate: 'CASCADE' })
     @JoinColumn({ name: 'clientId' })
     client: Client;
 
-    @ManyToOne(() => Installation)
+    @ManyToOne(() => Installation, { nullable: true, onDelete: 'SET NULL', onUpdate: 'CASCADE' })
     @JoinColumn({ name: 'installationId' })
-    installation: Installation;
+    installation?: Installation;
 
-    @ManyToOne(() => Employee)
+    @ManyToOne(() => Employee, { nullable: true, onDelete: 'SET NULL', onUpdate: 'CASCADE' })
     @JoinColumn({ name: 'employeeId' })
-    employee: Employee;
+    employee?: Employee;
 
-    @ManyToOne(() => User)
+    @ManyToOne(() => User, { nullable: false, onDelete: 'RESTRICT', onUpdate: 'CASCADE' })
     @JoinColumn({ name: 'createdByUserId' })
     createdByUser: User;
 }

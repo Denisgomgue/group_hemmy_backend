@@ -25,8 +25,9 @@ let UserRoleController = class UserRoleController {
     constructor(userRoleService) {
         this.userRoleService = userRoleService;
     }
-    create(createUserRoleDto) {
-        return this.userRoleService.create(createUserRoleDto);
+    create(createUserRoleDto, req) {
+        const assignedByUserId = req.user?.id;
+        return this.userRoleService.create(createUserRoleDto, assignedByUserId);
     }
     findAll() {
         return this.userRoleService.findAll();
@@ -45,8 +46,9 @@ exports.UserRoleController = UserRoleController;
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Request)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_user_role_dto_1.CreateUserRoleDto]),
+    __metadata("design:paramtypes", [create_user_role_dto_1.CreateUserRoleDto, Object]),
     __metadata("design:returntype", void 0)
 ], UserRoleController.prototype, "create", null);
 __decorate([

@@ -4,9 +4,9 @@ import { UpdateTicketDto } from './dto/update-ticket.dto';
 export declare class TicketController {
     private readonly ticketService;
     constructor(ticketService: TicketService);
-    create(createTicketDto: CreateTicketDto): string;
-    findAll(): string;
-    findOne(id: string): string;
-    update(id: string, updateTicketDto: UpdateTicketDto): string;
-    remove(id: string): string;
+    create(createTicketDto: CreateTicketDto): Promise<import("./entities/ticket.entity").Ticket>;
+    findAll(): Promise<import("./entities/ticket.entity").Ticket[]>;
+    findOne(id: string): Promise<import("./entities/ticket.entity").Ticket>;
+    update(id: string, updateTicketDto: UpdateTicketDto): Promise<import("./entities/ticket.entity").Ticket>;
+    remove(id: string): Promise<void>;
 }

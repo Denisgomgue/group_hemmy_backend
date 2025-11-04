@@ -18,7 +18,7 @@ export class UserRoleService {
     private userRepository: Repository<User>,
   ) { }
 
-  async create(createUserRoleDto: CreateUserRoleDto) {
+  async create(createUserRoleDto: CreateUserRoleDto, assignedByUserId?: number) {
     // Obtener usuario y rol
     const user = await this.userRepository.findOne({
       where: { id: createUserRoleDto.UserId },
@@ -55,33 +55,62 @@ export class UserRoleService {
       throw new ForbiddenException(`El usuario ya tiene el rol "${role.name}" asignado`);
     }
 
-    const userRole = this.userRoleRepository.create({
+    // Obtener el usuario que está asignando el rol (si se proporciona)
+    let assignedByUser: User | undefined = undefined;
+    if (assignedByUserId) {
+      assignedByUser = await this.userRepository.findOne({
+        where: { id: assignedByUserId },
+      }) || undefined;
+      // Si el usuario asignador no se encuentra, continuamos sin asignar assignedBy
+    }
+
+    const userRoleData: any = {
       user,
       role,
       assignedAt: createUserRoleDto.assignedAt || new Date(),
-    });
+    };
+
+    if (assignedByUser) {
+      userRoleData.assignedByUser = assignedByUser;
+    }
+
+    const userRole = this.userRoleRepository.create(userRoleData);
 
     return this.userRoleRepository.save(userRole);
   }
 
   async findAll() {
-    return this.userRoleRepository.find({
-      relations: [ 'user', 'role' ],
+    const results = await this.userRoleRepository.find({
+      relations: [ 'user', 'role', 'assignedByUser' ],
       order: { assignedAt: 'DESC' },
     });
+
+    // Agregar UserId, roleId y assignedBy explícitamente para el frontend
+    return results.map(ur => ({
+      ...ur,
+      UserId: ur.user?.id || (ur as any).UserId,
+      roleId: ur.role?.id || (ur as any).roleId,
+      assignedBy: ur.assignedByUser?.id || (ur as any).assignedBy || null,
+    }));
   }
 
   async findOne(id: number) {
     const userRole = await this.userRoleRepository.findOne({
       where: { id },
-      relations: [ 'user', 'role' ],
+      relations: [ 'user', 'role', 'assignedByUser' ],
     });
 
     if (!userRole) {
       throw new NotFoundException(`UserRole con ID ${id} no encontrado`);
     }
 
-    return userRole;
+    // Agregar UserId, roleId y assignedBy explícitamente para el frontend
+    return {
+      ...userRole,
+      UserId: userRole.user?.id || (userRole as any).UserId,
+      roleId: userRole.role?.id || (userRole as any).roleId,
+      assignedBy: userRole.assignedByUser?.id || (userRole as any).assignedBy || null,
+    };
   }
 
   async update(id: number, updateUserRoleDto: UpdateUserRoleDto) {

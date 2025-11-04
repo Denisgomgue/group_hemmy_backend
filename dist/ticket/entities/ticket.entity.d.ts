@@ -47,10 +47,14 @@ export declare class Ticket {
     openedAt: Date;
     closedAt: Date;
     createdAsRole: CreatedAsRole;
+    clientId: number;
+    installationId?: number;
+    employeeId?: number;
+    createdByUserId: number;
     created_at: Date;
     updated_at: Date;
     client: Client;
-    installation: Installation;
-    employee: Employee;
+    installation?: Installation;
+    employee?: Employee;
     createdByUser: User;
 }

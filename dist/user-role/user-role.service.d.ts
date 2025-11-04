@@ -9,9 +9,27 @@ export declare class UserRoleService {
     private roleRepository;
     private userRepository;
     constructor(userRoleRepository: Repository<UserRole>, roleRepository: Repository<Role>, userRepository: Repository<User>);
-    create(createUserRoleDto: CreateUserRoleDto): Promise<UserRole>;
-    findAll(): Promise<UserRole[]>;
-    findOne(id: number): Promise<UserRole>;
+    create(createUserRoleDto: CreateUserRoleDto, assignedByUserId?: number): Promise<UserRole[]>;
+    findAll(): Promise<{
+        UserId: any;
+        roleId: any;
+        assignedBy: any;
+        id: number;
+        assignedAt: Date;
+        user: User;
+        role: Role;
+        assignedByUser: User;
+    }[]>;
+    findOne(id: number): Promise<{
+        UserId: any;
+        roleId: any;
+        assignedBy: any;
+        id: number;
+        assignedAt: Date;
+        user: User;
+        role: Role;
+        assignedByUser: User;
+    }>;
     update(id: number, updateUserRoleDto: UpdateUserRoleDto): Promise<UserRole>;
     remove(id: number): Promise<UserRole>;
 }

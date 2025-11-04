@@ -28,7 +28,7 @@ let UserRoleService = class UserRoleService {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
     }
-    async create(createUserRoleDto) {
+    async create(createUserRoleDto, assignedByUserId) {
         const user = await this.userRepository.findOne({
             where: { id: createUserRoleDto.UserId },
         });
@@ -53,28 +53,49 @@ let UserRoleService = class UserRoleService {
         if (existing) {
             throw new common_1.ForbiddenException(`El usuario ya tiene el rol "${role.name}" asignado`);
         }
-        const userRole = this.userRoleRepository.create({
+        let assignedByUser = undefined;
+        if (assignedByUserId) {
+            assignedByUser = await this.userRepository.findOne({
+                where: { id: assignedByUserId },
+            }) || undefined;
+        }
+        const userRoleData = {
             user,
             role,
             assignedAt: createUserRoleDto.assignedAt || new Date(),
-        });
+        };
+        if (assignedByUser) {
+            userRoleData.assignedByUser = assignedByUser;
+        }
+        const userRole = this.userRoleRepository.create(userRoleData);
         return this.userRoleRepository.save(userRole);
     }
     async findAll() {
-        return this.userRoleRepository.find({
-            relations: ['user', 'role'],
+        const results = await this.userRoleRepository.find({
+            relations: ['user', 'role', 'assignedByUser'],
             order: { assignedAt: 'DESC' },
         });
+        return results.map(ur => ({
+            ...ur,
+            UserId: ur.user?.id || ur.UserId,
+            roleId: ur.role?.id || ur.roleId,
+            assignedBy: ur.assignedByUser?.id || ur.assignedBy || null,
+        }));
     }
     async findOne(id) {
         const userRole = await this.userRoleRepository.findOne({
             where: { id },
-            relations: ['user', 'role'],
+            relations: ['user', 'role', 'assignedByUser'],
         });
         if (!userRole) {
             throw new common_1.NotFoundException(`UserRole con ID ${id} no encontrado`);
         }
-        return userRole;
+        return {
+            ...userRole,
+            UserId: userRole.user?.id || userRole.UserId,
+            roleId: userRole.role?.id || userRole.roleId,
+            assignedBy: userRole.assignedByUser?.id || userRole.assignedBy || null,
+        };
     }
     async update(id, updateUserRoleDto) {
         const userRole = await this.userRoleRepository.findOne({

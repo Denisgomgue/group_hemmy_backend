@@ -65,6 +65,10 @@ let Ticket = class Ticket {
     openedAt;
     closedAt;
     createdAsRole;
+    clientId;
+    installationId;
+    employeeId;
+    createdByUserId;
     created_at;
     updated_at;
     client;
@@ -137,6 +141,22 @@ __decorate([
     __metadata("design:type", String)
 ], Ticket.prototype, "createdAsRole", void 0);
 __decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], Ticket.prototype, "clientId", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Number)
+], Ticket.prototype, "installationId", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Number)
+], Ticket.prototype, "employeeId", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], Ticket.prototype, "createdByUserId", void 0);
+__decorate([
     (0, typeorm_1.CreateDateColumn)({ default: () => "CURRENT_TIMESTAMP" }),
     __metadata("design:type", Date)
 ], Ticket.prototype, "created_at", void 0);
@@ -145,22 +165,22 @@ __decorate([
     __metadata("design:type", Date)
 ], Ticket.prototype, "updated_at", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => client_entity_1.Client),
+    (0, typeorm_1.ManyToOne)(() => client_entity_1.Client, { nullable: false, onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
     (0, typeorm_1.JoinColumn)({ name: 'clientId' }),
     __metadata("design:type", client_entity_1.Client)
 ], Ticket.prototype, "client", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => installation_entity_1.Installation),
+    (0, typeorm_1.ManyToOne)(() => installation_entity_1.Installation, { nullable: true, onDelete: 'SET NULL', onUpdate: 'CASCADE' }),
     (0, typeorm_1.JoinColumn)({ name: 'installationId' }),
     __metadata("design:type", installation_entity_1.Installation)
 ], Ticket.prototype, "installation", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => employee_entity_1.Employee),
+    (0, typeorm_1.ManyToOne)(() => employee_entity_1.Employee, { nullable: true, onDelete: 'SET NULL', onUpdate: 'CASCADE' }),
     (0, typeorm_1.JoinColumn)({ name: 'employeeId' }),
     __metadata("design:type", employee_entity_1.Employee)
 ], Ticket.prototype, "employee", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => user_entity_1.User),
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, { nullable: false, onDelete: 'RESTRICT', onUpdate: 'CASCADE' }),
     (0, typeorm_1.JoinColumn)({ name: 'createdByUserId' }),
     __metadata("design:type", user_entity_1.User)
 ], Ticket.prototype, "createdByUser", void 0);
